@@ -1,0 +1,259 @@
+#+BRAIN_PARENTS: data-science
+#+PROPERTY: header-args :session *tokyo-rent* :kernel python3 :mkdirp yes :noweb yes
+
+#+TITLE: Tokyo Rentals
+
+#+FILETAGS: incremental
+
+* What is this?
+:PROPERTIES:
+:CREATED:  [2023-05-07 Sun 20:13]
+:ID:       e8ce6b0d-89f0-48b4-aa28-612a1dc6cd9f
+:END:
+
+The purpose of this project is to address a problem often faced when living in Tokyo. Rent prices can vary wildly based on many factors. It also aims to demonstrate my proficiency in applying data analysis with Python.
+
+The goal of the Tokyo Rentals project is to analyze rental prices in Tokyo and create a data-driven visualization to provide insights into the rental market in the central districts of Tokyo.
+
+1. Data collection: Collect rental price data in Tokyo from various sources, including real estate websites, government websites, and rental agencies.
+2. Data cleaning: Clean and organize the collected data by removing errors or inconsistencies and formatting it for analysis.
+3. Data analysis: Analyze the data using statistical methods such as regression analysis, clustering, and time series analysis to identify patterns and trends.
+4. Data visualization: Visualize the analyzed data using charts, graphs, and maps to facilitate understanding and interpretation.
+5. Data sharing: Share the analyzed data and visualizations through a website or social media platforms.
+
+** Features
+:PROPERTIES:
+:CREATED:  [2023-05-07 Sun 20:13]
+:ID:       122187db-a3ef-4b07-b06c-6c9741dd7ab1
+:END:
+
+This project will result in an interactive Dash visualization of rental data for central districts of Tokyo. The data will be stored on Google Cloud Platform (GCP) services, and the visualization will include machine learning capabilities, as described in steimel2019.
+
+1. Create a Dash visualization of rental data for central districts of Tokyo. The data should be stored on GCP services (such as BigQuery) and visualizations should be interactive.
+2. Include demographic information as well
+3. Continuous updating to build rents over time (to determine the best time of year to start renting)
+4. As a stretch goal, I especially would like to include machine learning as described in steimel2019.
+
+https://tokyocheapo.com/living/tokyo-rent-map/
+https://www.datamaplab.com/posts/map-of-rent-prices-in-tokyo/
+https://www.homes.co.jp/
+https://console.cloud.google.com/welcome?project=tokyo-rents
+https://qiita.com/tomyu/items/a08d3180b7cbe63667c9
+https://github.com/georgeburry/tokyo-rental-prices
+https://github.com/steimel64/Masters_Thesis_Tokyo_Rent_Prediction
+
+** 5 Identifying next actions
+:PROPERTIES:
+:CREATED:  [2023-05-07 Sun 20:13]
+:ID:       9c3e3b50-6197-4dfe-9c86-a8977812a2e1
+:END:
+Finally, you allocate the needed resources to get the project moving. It is about deciding the next actions for each of the moving parts of the project.
+
+1. Ask questions and define the problem.
+2. Prepare data by collecting and storing the information.
+3. Process data by cleaning and checking the information.
+4. Analyze data to find patterns, relationships, and trends.
+5. Share data with your audience.
+6. Act on the data and use the analysis results.
+*** TODO Incorporate external data sources
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       7c683a07-c5b7-4fab-9949-ebd965ad8e41
+:END:
+Explore the incorporation of external data sources, such as transportation accessibility or neighborhood characteristics, to enhance the analysis.
+
+*** TODO Experiment with machine learning algorithms
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       6a119376-ed7b-4cf4-a5c5-01e7b25271df
+:END:
+Experiment with machine learning algorithms, as described in "steimel2019," to predict rental prices or identify influential factors.
+
+*** TODO Collaborate with UX/UI designers
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       06239226-00b9-4e1b-a9b8-040654137474
+:END:
+Collaborate with UX/UI designers to enhance the user experience of the rental data visualization dashboard.
+
+*** TODO Evaluate model performance and accuracy
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       b602aa69-a988-4f68-8657-d725d276ee92
+:END:
+Evaluate the performance and accuracy of rental price predictions or analyses and iterate on models or methodologies.
+
+*** TODO Document data analysis process
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       a3cfd92b-41b4-4cea-94f4-63e7b4176cbb
+:END:
+Document the data analysis process, including data sources, cleaning steps, analysis techniques, and visualization choices.
+
+*** TODO Gather user feedback
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       79411ece-5426-4630-ba3b-758e69a75c2e
+:END:
+Gather user feedback on the rental data visualization and incorporate suggestions for further improvements.
+
+*** TODO Explore presentation opportunities
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       c844f103-d627-4ca6-a6c7-645bc753c032
+:END:
+Explore opportunities to present findings and insights at data analytics or real estate-related conferences or meetups in Tokyo.
+
+*** TODO Update and maintain the project
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       68cbf7f4-207e-40b5-b897-80be1d041959
+:END:
+Continuously update and maintain the rental data analysis project to provide the latest rental information for users.
+* NEXT Data Collection: Import rent data
+:PROPERTIES:
+:CREATED:  [2023-05-13 Sat 09:30]
+:ID:       f0f14775-e4a4-4644-9825-cad597f29c00
+:END:
+
+https://tuto-techno-guix-hpc.gitlabpages.inria.fr/guidelines/
+https://lists.gnu.org/archive/html/guix-devel/2019-10/msg00511.html
+https://github.com/jkitchin/ox-ipynb
+https://github.com/sj50179/Google-Data-Analytics-Professional-Certificate/wiki/1.1.3.Understanding-the-data-ecosystem
+https://gitlab.inria.fr/guix-hpc/guix-kernel
+
+#+begin_src scheme :tangle manifest.scm :eval no
+(specifications->manifest
+  (list "python"
+        "python-ipython"
+        "python-ipykernel"
+        "jupyter"
+        "guix-jupyter"
+        "python-beautifulsoup4"
+        "python-pandas"))
+#+end_src
+
+#+begin_src jupyter-python
+import requests, re
+from bs4 import BeautifulSoup
+import pandas as pd
+# import database
+#+end_src
+
+#+RESULTS:
+
+** TODO Research and identify additional rental data sources
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       7c6311eb-30e3-4144-9b35-fe323edcf08f
+:END:
+Research and identify additional sources of rental data in Tokyo to enrich the dataset.
+
+** TODO Develop data collection pipeline
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       630ccbf5-6f99-40ae-9f6e-2ec5541f04c2
+:END:
+Develop a data collection pipeline or script to automate the gathering of rental data from various sources.
+
+** Scraping from SUUMO
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 15:03]
+:ID:       0fb79f3f-eb9b-4ee6-9910-ca58f356604c
+:END:
+
+Previous projects have used SUUMO, a popular rental search platform. Typical of Japanese websites, there is no API, and instead web-scraping must be utilized.
+
+A common approach seems to be to generate a reusable URL seeded with specific search criteria via its [[https://suumo.jp/jj/chintai][chintai]] search page (which will likely reroute based on region).
+
+At first glance this seems brittle, but due to the aforementioned quirk of Japan's web services there is some durability to links as sites rarely change or at least not in breaking ways.
+
+Take for instance the following link, which was used in a [[https://github.com/georgeburry/tokyo-rental-prices/tree/master][similar project]] in 2018:
+#+begin_src jupyter-python
+# this is the URL generated after choosing specific search criteria on the website (e.g. location, house type, price range)
+search_url = "http://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&ta=13&sc=13101&sc=13102&sc=13103&sc=13104&sc=13105&sc=13113&cb=0.0&ct=9999999&et=9999999&cn=9999999&mb=0&mt=9999999&shkr1=03&shkr2=03&shkr3=03&shkr4=03&fw2="
+
+# obtaining all content from pre-defined URL
+r = requests.get(search_url)
+c = r.content
+
+# we use beautifulsoup to make sense of the data
+soup = BeautifulSoup(c,"html.parser")
+
+#+end_src
+
+#+RESULTS:
+
+#+begin_src jupyter-python
+# it was determined that we need to look inside the class "cassetteitem" having inspected the HTML elements
+all = soup.find_all("div",{"class":"cassetteitem"})
+
+# now we can see how all entries related to the search were split into pages by looking for "pagination-parts" class instances.
+page_nr = soup.find_all("ol",{"class":"pagination-parts"})[-1].text
+page_nr = [int(s) for s in page_nr.split() if s.isdigit()]
+page_nr = page_nr[len(page_nr)-1]
+
+print(page_nr,"pages were found")
+#+end_src
+
+#+RESULTS:
+: 697 pages were found
+
+It still works!
+
+#+RESULTS:
+* TODO Cleaning
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 16:28]
+:ID:       8c93d6a6-282a-4890-974d-0c209b874cf2
+:END:
+** TODO Apply data cleaning techniques
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       e79c734c-70ef-4230-9911-806019735e1c
+:END:
+Apply data cleaning techniques to address inconsistencies, missing values, and outliers in the rental data.
+
+* TODO Analysis
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 16:28]
+:ID:       8ce6c8e1-1d6e-4321-a723-b3e1e4892cb3
+:END:
+** TODO Perform exploratory data analysis
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       32c93679-55fa-4e6a-9ce0-5e2125d0213d
+:END:
+Perform exploratory data analysis to gain insights into rental price distribution, property types, and geographical variations.
+
+** TODO Implement statistical analysis techniques
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       00a104bd-41e3-4f87-ae4e-c6741fa4ef09
+:END:
+Implement statistical analysis techniques such as regression, clustering, or time series analysis to identify patterns and trends in the rental market.
+
+* TODO Visualization
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 16:28]
+:ID:       0bfc3db3-552e-458f-8127-5761d40b4eb2
+:END:
+*** TODO Create interactive visualizations
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       947558a4-7652-4a83-89e4-8e69b031f364
+:END:
+Create interactive visualizations using Dash or other libraries to present rental data in an intuitive and user-friendly manner.
+*** TODO Conduct comparative analysis
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       0cd53336-9b42-49a2-873a-566cc58678fd
+:END:
+Conduct comparative analysis between different districts or neighborhoods within Tokyo to identify affordable rental options or investment opportunities.
+
+* TODO Data Sharing
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 16:28]
+:ID:       0d22c9cc-a8e8-45fa-927d-7369eceae898
+:END:
+
