@@ -166,11 +166,6 @@ c = r.content
 # we use beautifulsoup to make sense of the data
 soup = BeautifulSoup(c,"html.parser")
 
-#+end_src
-
-#+RESULTS:
-
-#+begin_src jupyter-python
 # it was determined that we need to look inside the class "cassetteitem" having inspected the HTML elements
 all = soup.find_all("div",{"class":"cassetteitem"})
 
@@ -245,6 +240,13 @@ df.head()
 #+end_src
 
 #+RESULTS:
+:                 Title   Locality      Size    Rooms   Price
+: 0    ザ・グランクラッセ日本橋イースト  東京都中央区新川２  77.02 m2  Unknown    33万円
+: 1    Ｎｉｓｈｉａｚａｂｕ－Ｈｏｕｓｅ  東京都港区西麻布１  184.6 m2  Unknown    55万円
+: 2          シティスパイア新富町   東京都中央区湊３  48.46 m2        1   9.8万円
+: 3             アムス八丁堀I  東京都中央区新川２  55.24 m2        1  11.9万円
+: 4  ライオンズフォーシア中央MINATO   東京都中央区湊２  42.19 m2        2  12.7万円
+
 ** TODO Research and identify additional rental data sources
 :PROPERTIES:
 :CREATED:  [2023-05-23 Tue 17:02]
