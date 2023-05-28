@@ -155,7 +155,7 @@ A common approach seems to be to generate a reusable URL seeded with specific se
 At first glance this seems brittle, but due to the aforementioned quirk of Japan's web services, there is some durability to links as sites rarely change or at least not in breaking ways.
 
 Take for instance the following link, which was used in a [[https://github.com/georgeburry/tokyo-rental-prices/tree/master][similar project]] in 2018:
-#+begin_src jupyter-python
+#+begin_src jupyter-python :eval yes :results silent
 # this is the URL generated after choosing specific search criteria on the website (e.g. location, house type, price range)
 search_url = "http://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&ta=13&sc=13101&sc=13102&sc=13103&sc=13104&sc=13105&sc=13113&cb=0.0&ct=9999999&et=9999999&cn=9999999&mb=0&mt=9999999&shkr1=03&shkr2=03&shkr3=03&shkr4=03&fw2="
 
@@ -178,7 +178,9 @@ all = soup.find_all("div",{"class":"cassetteitem"})
 page_nr = soup.find_all("ol",{"class":"pagination-parts"})[-1].text
 page_nr = [int(s) for s in page_nr.split() if s.isdigit()]
 page_nr = page_nr[len(page_nr)-1]
+#+end_src
 
+#+begin_src jupyter-python :eval yes :results silent
 print(page_nr,"pages were found")
 #+end_src
 
@@ -186,6 +188,61 @@ print(page_nr,"pages were found")
 : 697 pages were found
 
 As we can see, it still works - albeit with more results than the original.
+
+** Transformation to pandas dataframe
+:PROPERTIES:
+:CREATED:  [2023-05-28 Sun 12:59]
+:ID:       63efe878-e4dd-4ce8-875e-112b46c34442
+:END:
+
+#+begin_src jupyter-python :results silent
+# iterating through each page by adding page number to end of search URL each time
+l = []
+for page in range(1, 2):  # for the sake of this example, only one page is used to speed up the operation
+    r = requests.get(search_url + '&pn=' + str(page))
+    c = r.content
+    soup = BeautifulSoup(c,"html.parser")
+    house_elements = soup.find_all(lambda tag: tag.name == 'div' and
+                                   tag.get('class') == ['cassetteitem'])    # "cassetteitem" is the class for each house
+
+    # for each house discovered, let's collect information on title, locality, number of room, floor area and price
+    # and put the information into a dictionary
+    for item in house_elements:
+        d = {}
+        d["Title"] = item.find("div",{"class","cassetteitem_content-title"}).text
+        d["Locality"] = item.find("li",{"class","cassetteitem_detail-col1"}).text
+        d["Price"] = item.find("span",{"class","cassetteitem_other-emphasis ui-text--bold"}).text.replace("\n","").replace(" ","")
+
+        # finding number of rooms is more complicated in this situation, because categories need to be decoded
+        rooms = item.find("table",{"class","cassetteitem_other"}).text
+        if 'ワンルーム' in rooms:
+            d["Rooms"] = 1
+        elif '1K' in rooms:
+            d["Rooms"] = 1
+        elif '2K' in rooms:
+            d["Rooms"] = 2
+        else:
+            d["Rooms"] = "Unknown"
+
+        # need to dig inside tables to find the relevant number
+        table = item.find_all("table",{"class","cassetteitem_other"})[0]
+        nums = re.findall(r'\d+(?:\.\d+)?', str(table))
+        d["Size"] = nums[-6]+" m2"
+
+#         d["Link"] = item.find("td",{"class","ui-text--midium ui-text--bold"}).text
+
+        l.append(d)
+
+# finally we can create a dataframe with the columns ordered in the way we please and then save it as a CSV file
+df = pandas.DataFrame(l)
+df = df[['Title', 'Locality', 'Size', 'Rooms', 'Price']]
+# df.to_csv("Output.csv")
+#+end_src
+
+Lets take a look at the frame:
+#+begin_src jupyter-python
+df.head()
+#+end_src
 
 #+RESULTS:
 ** TODO Research and identify additional rental data sources
