@@ -142,31 +142,17 @@ import pandas as pd
 
 #+RESULTS:
 
-** TODO Research and identify additional rental data sources
-:PROPERTIES:
-:CREATED:  [2023-05-23 Tue 17:02]
-:ID:       7c6311eb-30e3-4144-9b35-fe323edcf08f
-:END:
-Research and identify additional sources of rental data in Tokyo to enrich the dataset.
-
-** TODO Develop data collection pipeline
-:PROPERTIES:
-:CREATED:  [2023-05-23 Tue 17:02]
-:ID:       630ccbf5-6f99-40ae-9f6e-2ec5541f04c2
-:END:
-Develop a data collection pipeline or script to automate the gathering of rental data from various sources.
-
 ** Scraping from SUUMO
 :PROPERTIES:
 :CREATED:  [2023-05-23 Tue 15:03]
 :ID:       0fb79f3f-eb9b-4ee6-9910-ca58f356604c
 :END:
 
-Previous projects have used SUUMO, a popular rental search platform. Typical of Japanese websites, there is no API, and instead web-scraping must be utilized.
+Previous projects have used [[https://suumo.jp/][SUUMO]], a popular rental search platform. Typical of Japanese websites, there is no API, and instead web-scraping must be utilized.
 
 A common approach seems to be to generate a reusable URL seeded with specific search criteria via its [[https://suumo.jp/jj/chintai][chintai]] search page (which will likely reroute based on region).
 
-At first glance this seems brittle, but due to the aforementioned quirk of Japan's web services there is some durability to links as sites rarely change or at least not in breaking ways.
+At first glance this seems brittle, but due to the aforementioned quirk of Japan's web services, there is some durability to links as sites rarely change or at least not in breaking ways.
 
 Take for instance the following link, which was used in a [[https://github.com/georgeburry/tokyo-rental-prices/tree/master][similar project]] in 2018:
 #+begin_src jupyter-python
@@ -199,9 +185,23 @@ print(page_nr,"pages were found")
 #+RESULTS:
 : 697 pages were found
 
-It still works!
+As we can see, it still works - albeit with more results than the original.
 
 #+RESULTS:
+** TODO Research and identify additional rental data sources
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       7c6311eb-30e3-4144-9b35-fe323edcf08f
+:END:
+Research and identify additional sources of rental data in Tokyo to enrich the dataset.
+
+** TODO Develop data collection pipeline
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       630ccbf5-6f99-40ae-9f6e-2ec5541f04c2
+:END:
+Develop a data collection pipeline or script to automate the gathering of rental data from various sources.
+
 * TODO Cleaning
 :PROPERTIES:
 :CREATED:  [2023-05-23 Tue 16:28]
