@@ -158,29 +158,30 @@ Take for instance the following link, which was used in a [[https://github.com/g
 #+begin_src jupyter-python :eval yes :results silent
 # this is the URL generated after choosing specific search criteria on the website (e.g. location, house type, price range)
 search_url = "http://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&ta=13&sc=13101&sc=13102&sc=13103&sc=13104&sc=13105&sc=13113&cb=0.0&ct=9999999&et=9999999&cn=9999999&mb=0&mt=9999999&shkr1=03&shkr2=03&shkr3=03&shkr4=03&fw2="
-
-# obtaining all content from pre-defined URL
-r = requests.get(search_url)
-c = r.content
-
-# we use beautifulsoup to make sense of the data
-soup = BeautifulSoup(c,"html.parser")
-
-# it was determined that we need to look inside the class "cassetteitem" having inspected the HTML elements
-all = soup.find_all("div",{"class":"cassetteitem"})
-
-# now we can see how all entries related to the search were split into pages by looking for "pagination-parts" class instances.
-page_nr = soup.find_all("ol",{"class":"pagination-parts"})[-1].text
-page_nr = [int(s) for s in page_nr.split() if s.isdigit()]
-page_nr = page_nr[len(page_nr)-1]
 #+end_src
 
+Let's count the number of pages returned via a function:
 #+begin_src jupyter-python :eval yes :results silent
-print(page_nr,"pages were found")
+def suumo_results_pages():
+    # obtaining all content from pre-defined URL
+    r = requests.get(search_url)
+    c = r.content
+    soup = BeautifulSoup(c,"html.parser")
+    # it was determined that we need to look inside the class "cassetteitem" having inspected the HTML elements
+    all = soup.find_all("div",{"class":"cassetteitem"})
+    # now we can see how all entries related to the search were split into pages by looking for "pagination-parts" class instances.
+    page_nr = soup.find_all("ol",{"class":"pagination-parts"})[-1].text
+    page_nr = [int(s) for s in page_nr.split() if s.isdigit()]
+    page_nr = page_nr[len(page_nr)-1]
+    return page_nr
+#+end_src
+
+#+begin_src jupyter-python :eval yes
+print(suumo_results_pages(),"pages were found")
 #+end_src
 
 #+RESULTS:
-: 697 pages were found
+: 696 pages were found
 
 As we can see, it still works - albeit with more results than the original.
 
