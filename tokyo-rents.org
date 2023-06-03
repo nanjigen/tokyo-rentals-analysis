@@ -173,7 +173,13 @@ Take for instance the following link, which was used in a [[https://github.com/g
 search_url = "http://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&ta=13&sc=13101&sc=13102&sc=13103&sc=13104&sc=13105&sc=13113&cb=0.0&ct=9999999&et=9999999&cn=9999999&mb=0&mt=9999999&shkr1=03&shkr2=03&shkr3=03&shkr4=03&fw2="
 #+end_src
 
-Let's count the number of pages returned via a function:
+*** Parsing
+:PROPERTIES:
+:CREATED:  [2023-06-03 Sat 08:37]
+:ID:       551be45d-5803-4e1b-ae3c-8afd7a4e172e
+:END:
+
+Lets do an initial parsing of the web content by counting the number of pages returned via a function:
 #+begin_src jupyter-python :eval yes :results silent
 def suumo_results_pages():
     # obtaining all content from pre-defined URL
@@ -194,9 +200,9 @@ print(suumo_results_pages(),"pages were found")
 #+end_src
 
 #+RESULTS:
-: 696 pages were found
+: 700 pages were found
 
-As we can see, it still works - albeit with more results than the original.
+As we can see, the original still works - albeit with more results than the original.
 
 ** Transformation to pandas dataframe
 :PROPERTIES:
