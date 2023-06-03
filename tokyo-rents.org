@@ -235,37 +235,35 @@ len(house_collector(1, 4))
 #+RESULTS:
 : 90
 
+*** Title details
+:PROPERTIES:
+:CREATED:  [2023-06-03 Sat 13:40]
+:ID:       f8b43fd2-5b08-4b4f-affe-ab5873da3515
+:END:
+
+The initial header of a given entry is contained in the =cassetteitem-detail= div, and contains the building name and some other information note found in the table used later on.
+#+begin_src jupyter-python :results silent
+def extract_detail_text(html):
+    # for each house discovered, let's collect information on title, locality,
     # and put the information into a dictionary
-    for item in house_elements:
+    house_data = []
+    for item in html:
         d = {}
         d["Title"] = item.find("div",{"class","cassetteitem_content-title"}).text
         d["Locality"] = item.find("li",{"class","cassetteitem_detail-col1"}).text
-        d["Price"] = item.find("span",{"class","cassetteitem_other-emphasis ui-text--bold"}).text.replace("\n","").replace(" ","")
+    house_data.append(d)
+    # return house_data
+    return house_data
+#+end_src
 
-        # finding number of rooms is more complicated in this situation, because categories need to be decoded
-        rooms = item.find("table",{"class","cassetteitem_other"}).text
-        if 'ワンルーム' in rooms:
-            d["Rooms"] = 1
-        elif '1K' in rooms:
-            d["Rooms"] = 1
-        elif '2K' in rooms:
-            d["Rooms"] = 2
-        else:
-            d["Rooms"] = "Unknown"
+As we can see, this gives us what we're looking for.
+#+begin_src jupyter-python
+print(extract_detail_text(house_collector(1, 2)))
+#+end_src
 
-        # need to dig inside tables to find the relevant number
-        table = item.find_all("table",{"class","cassetteitem_other"})[0]
-        nums = re.findall(r'\d+(?:\.\d+)?', str(table))
-        d["Size"] = nums[-6]+" m2"
+#+RESULTS:
+: [{'Title': 'プラウド市ヶ谷南町ディアージュ', 'Locality': '東京都新宿区南町'}]
 
-#         d["Link"] = item.find("td",{"class","ui-text--midium ui-text--bold"}).text
-
-        l.append(d)
-
-# finally we can create a dataframe with the columns ordered in the way we please and then save it as a CSV file
-df = pandas.DataFrame(l)
-df = df[['Title', 'Locality', 'Size', 'Rooms', 'Price']]
-# df.to_csv("Output.csv")
 #+end_src
 
 Lets take a look at the frame:
