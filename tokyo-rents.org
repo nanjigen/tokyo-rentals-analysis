@@ -204,26 +204,37 @@ print(suumo_results_pages(),"pages were found")
 
 As we can see, the original still works - albeit with more results than the original.
 
-** Transformation to pandas dataframe
+*** Collection of house elements
 :PROPERTIES:
 :CREATED:  [2023-05-28 Sun 12:59]
 :ID:       63efe878-e4dd-4ce8-875e-112b46c34442
 :END:
 
 Iterate pages by adding page number to end of search URL each loop.
-Build this into the target collection of houses by filling house elements list?
+Build this into the target collection of houses by filling the =property_list= variable with the house_elements list via the ~.extend~ method.
 #+begin_src jupyter-python :results silent
 def house_collector(start, end):
+    property_list = []
     for page in range(start, end):
-        r = requests.get(search_url + '&pn=' + str(page))
+        r = requests.get(search_url + '&page=' + str(page))
         c = r.content
         soup = BeautifulSoup(c,"html.parser")
         house_elements = soup.find_all(lambda tag: tag.name == 'div' and
                                     tag.get('class') == ['cassetteitem'])    # "cassetteitem" is the class for each house
-    return house_elements
+        sleep(randint(1,3))
+        property_list.extend(house_elements)
+    return property_list
 #+end_src
 
-    # for each house discovered, let's collect information on title, locality, number of room, floor area and price
+Maybe turn this into a test?
+#+begin_src jupyter-python :eval yes
+# print(house_collector(1, 2)[1])
+len(house_collector(1, 4))
+#+end_src
+
+#+RESULTS:
+: 90
+
     # and put the information into a dictionary
     for item in house_elements:
         d = {}
