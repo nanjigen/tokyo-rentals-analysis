@@ -396,6 +396,50 @@ def clean_numeric_data():
         df['Rent'] = df['Rent'].astype(float).astype(int) * 10000
 #+end_src
 
+Now lets apply our data cleaning and take a look at the new frame:
+#+begin_src jupyter-python
+clean_numeric_data()
+df.head()
+#+end_src
+
+#+RESULTS:
+#+begin_example
+                      Title      Locality Floor    Size Layout     Rent  \
+0  京王井の頭線 神泉駅 地下1地上2階建 築41年     東京都渋谷区松濤２     1  294.64   9LDK  3000000
+1                トルナーレ日本橋浜町  東京都中央区日本橋浜町３    36   44.01  ワンルーム   190000
+2                トルナーレ日本橋浜町  東京都中央区日本橋浜町３    36   44.01  ワンルーム   200000
+3                トルナーレ日本橋浜町  東京都中央区日本橋浜町３    39   56.98   1LDK   240000
+4                トルナーレ日本橋浜町  東京都中央区日本橋浜町３    44   60.16   1LDK   240000
+
+                                                Link Rooms
+0  https://suumo.jp/chintai/jnc_000078769288/?bc=...     9
+1  https://suumo.jp/chintai/jnc_000082906762/?bc=...     1
+2  https://suumo.jp/chintai/jnc_000081925350/?bc=...     1
+3  https://suumo.jp/chintai/jnc_000061463143/?bc=...     1
+4  https://suumo.jp/chintai/jnc_000082255390/?bc=...     1
+#+end_example
+
+Our Rent column returns as the correct datatype:
+#+begin_src jupyter-python
+df['Rent']
+#+end_src
+
+#+RESULTS:
+#+begin_example
+0        3000000
+1         190000
+2         200000
+3         240000
+4         240000
+          ...
+14456     100000
+14457     110000
+14458     110000
+14459     220000
+14460      90000
+Name: Rent, Length: 14461, dtype: int64
+#+end_example
+
 * TODO Analysis
 :PROPERTIES:
 :CREATED:  [2023-05-23 Tue 16:28]
