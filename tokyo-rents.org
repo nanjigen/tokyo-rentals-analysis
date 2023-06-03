@@ -110,7 +110,7 @@ Explore opportunities to present findings and insights at data analytics or real
 :ID:       68cbf7f4-207e-40b5-b897-80be1d041959
 :END:
 Continuously update and maintain the rental data analysis project to provide the latest rental information for users.
-* NEXT Data Collection: Import rent data
+* NEXT Data Collection: Import rental data
 :PROPERTIES:
 :CREATED:  [2023-05-13 Sat 09:30]
 :ID:       f0f14775-e4a4-4644-9825-cad597f29c00
@@ -122,25 +122,38 @@ https://github.com/jkitchin/ox-ipynb
 https://github.com/sj50179/Google-Data-Analytics-Professional-Certificate/wiki/1.1.3.Understanding-the-data-ecosystem
 https://gitlab.inria.fr/guix-hpc/guix-kernel
 
+** Requirements
+:PROPERTIES:
+:CREATED:  [2023-06-03 Sat 12:05]
+:ID:       3d73e3bd-690b-47d1-af42-d18a8c973bf5
+:END:
+First well define out requirements.
+First those we can define by ~Guix~'s own packages:
 #+begin_src scheme :tangle manifest.scm :eval no
 (specifications->manifest
   (list "python"
         "python-ipython"
         "python-ipykernel"
         "jupyter"
+        "emacs-jupyter"
         "guix-jupyter"
         "python-beautifulsoup4"
         "python-pandas"))
 #+end_src
 
-#+begin_src jupyter-python
+And then imported into Python:
+#+begin_src jupyter-python :results silent
 import requests, re
 from bs4 import BeautifulSoup
+from time import time, sleep
+from random import randint
 import pandas as pd
+import matplotlib.pyplot as plt
+
+plt.style.use('fivethirtyeight')
+color_pal = plt.rcParams["axes.prop_cycle"].by_key()["color"]
 # import database
 #+end_src
-
-#+RESULTS:
 
 ** Scraping from SUUMO
 :PROPERTIES:
