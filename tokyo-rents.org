@@ -264,6 +264,13 @@ print(extract_detail_text(house_collector(1, 2)))
 #+RESULTS:
 : [{'Title': 'プラウド市ヶ谷南町ディアージュ', 'Locality': '東京都新宿区南町'}]
 
+*** Table extraction
+:PROPERTIES:
+:CREATED:  [2023-06-03 Sat 13:41]
+:ID:       7ed8c278-8155-4a58-9c73-027683515ad1
+:END:
+
+'間取り' (madori) refers to the house plan, rendered in the =XLDK= format, where X is the number of rooms and D and K respectively refer to Dining room and Kitchen, and are optional. As is standard with Japanese listings, this is also often accompanied by an actual floor plan graphic.
 #+end_src
 
 Lets take a look at the frame:
