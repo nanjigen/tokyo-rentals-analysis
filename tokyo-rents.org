@@ -304,16 +304,40 @@ print(extract_table_text(house_collector(1, 2))[1])
 #+RESULTS:
 : {'Title': 'トルナーレ日本橋浜町', 'Locality': '東京都中央区日本橋浜町３', 'Floor': '36階', 'Rent': '19万円', 'Admin Fee': '10000円', 'Deposit': '19万円', 'Key money': '19万円', 'Layout': 'ワンルーム', 'Size': '44.01m2', 'Link': 'https://suumo.jp/chintai/jnc_000082906762/?bc=100325224283'}
 
+Lets take a look at the frame:
+#+begin_src jupyter-python :results yes
+df = pd.DataFrame(extract_table_text(house_collector(1, 100)))
+df = df[['Title', 'Locality', 'Floor', 'Size', 'Layout', 'Rent', 'Link']]
+# df.to_csv("Output.csv")
 df.head()
 #+end_src
 
 #+RESULTS:
-:                 Title   Locality      Size    Rooms   Price
-: 0    ザ・グランクラッセ日本橋イースト  東京都中央区新川２  77.02 m2  Unknown    33万円
-: 1    Ｎｉｓｈｉａｚａｂｕ－Ｈｏｕｓｅ  東京都港区西麻布１  184.6 m2  Unknown    55万円
-: 2          シティスパイア新富町   東京都中央区湊３  48.46 m2        1   9.8万円
-: 3             アムス八丁堀I  東京都中央区新川２  55.24 m2        1  11.9万円
-: 4  ライオンズフォーシア中央MINATO   東京都中央区湊２  42.19 m2        2  12.7万円
+#+begin_example
+                      Title      Locality Floor      Size Layout    Rent  \
+0  京王井の頭線 神泉駅 地下1地上2階建 築41年     東京都渋谷区松濤２  1-2階  294.64m2   9LDK   300万円
+1                トルナーレ日本橋浜町  東京都中央区日本橋浜町３   36階   44.01m2  ワンルーム    19万円
+2                トルナーレ日本橋浜町  東京都中央区日本橋浜町３   36階   44.01m2  ワンルーム    20万円
+3                トルナーレ日本橋浜町  東京都中央区日本橋浜町３   39階   56.98m2   1LDK  24.9万円
+4                トルナーレ日本橋浜町  東京都中央区日本橋浜町３   44階   60.16m2   1LDK  24.5万円
+
+                                                Link
+0  https://suumo.jp/chintai/jnc_000078769288/?bc=...
+1  https://suumo.jp/chintai/jnc_000082906762/?bc=...
+2  https://suumo.jp/chintai/jnc_000081925350/?bc=...
+3  https://suumo.jp/chintai/jnc_000061463143/?bc=...
+4  https://suumo.jp/chintai/jnc_000082255390/?bc=...
+#+end_example
+
+As we can see, our frame is created correctly, however there are entries that are non-numeric which we actually want as number values in order to begin EDA:
+#+begin_src jupyter-python
+df['Rent'].dtype
+#+end_src
+
+#+RESULTS:
+: dtype('O')
+
+Which is not supported by =Numpy=.
 
 ** TODO Research and identify additional rental data sources
 :PROPERTIES:
