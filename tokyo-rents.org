@@ -296,8 +296,14 @@ def extract_table_text(html):
     return house_data
 #+end_src
 
-Lets take a look at the frame:
+Getting the first member of the generated list shows a desirable dictionary entry:
 #+begin_src jupyter-python
+print(extract_table_text(house_collector(1, 2))[1])
+#+end_src
+
+#+RESULTS:
+: {'Title': 'トルナーレ日本橋浜町', 'Locality': '東京都中央区日本橋浜町３', 'Floor': '36階', 'Rent': '19万円', 'Admin Fee': '10000円', 'Deposit': '19万円', 'Key money': '19万円', 'Layout': 'ワンルーム', 'Size': '44.01m2', 'Link': 'https://suumo.jp/chintai/jnc_000082906762/?bc=100325224283'}
+
 df.head()
 #+end_src
 
