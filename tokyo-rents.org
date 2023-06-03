@@ -358,12 +358,15 @@ Develop a data collection pipeline or script to automate the gathering of rental
 :CREATED:  [2023-05-23 Tue 16:28]
 :ID:       8c93d6a6-282a-4890-974d-0c209b874cf2
 :END:
-** TODO Apply data cleaning techniques
+** NEXT Apply data cleaning techniques
 :PROPERTIES:
 :CREATED:  [2023-05-23 Tue 17:02]
 :ID:       e79c734c-70ef-4230-9911-806019735e1c
+:TRIGGER:  chain-find-next(NEXT,from-current,priority-up,effort-down)
 :END:
 Apply data cleaning techniques to address inconsistencies, missing values, and outliers in the rental data.
+
+We need to reconfigure our data frame so that relevant columns contain numerical values. We also will be inserting a new column =Rooms= to represent how many liveable rooms there are without losing access to the XLDK layout convention:
 
 * TODO Analysis
 :PROPERTIES:
