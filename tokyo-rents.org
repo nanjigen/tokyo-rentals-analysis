@@ -253,23 +253,23 @@ The initial header of a given entry is contained in the =cassetteitem-detail= di
 #+begin_src jupyter-python :noweb-ref scrape-functions :results silent
 def extract_detail_text(html):
    """Extract header data from outside table"""
-    house_data = []
-    for item in html:
-        d = {}
-        d["Title"] = item.find("div",{"class","cassetteitem_content-title"}).text
-        d["Locality"] = item.find("li",{"class","cassetteitem_detail-col1"}).text
-    house_data.append(d)
-    return house_data
+   house_data = []
+   for item in html:
+       d = {}
+       d["Title"] = item.find("div",{"class","cassetteitem_content-title"}).text
+       d["Locality"] = item.find("li",{"class","cassetteitem_detail-col1"}).text
+       house_data.append(d)
+   return house_data
 
 #+end_src
 
 As we can see, this gives us what we're looking for.
 #+begin_src jupyter-python
-print(extract_detail_text(house_collector(1, 2)))
+print(extract_detail_text(house_collector(1, 2))[0])
 #+end_src
 
 #+RESULTS:
-: [{'Title': 'プラウド市ヶ谷南町ディアージュ', 'Locality': '東京都新宿区南町'}]
+: {'Title': 'ボストーク・ネオ', 'Locality': '東京都千代田区東神田２'}
 
 *** Table extraction
 :PROPERTIES:
@@ -303,6 +303,7 @@ def extract_table_text(html):
                 }
             house_data.append(row_data)
     return house_data
+
 #+end_src
 
 Getting the first member of the generated list shows a desirable dictionary entry:
