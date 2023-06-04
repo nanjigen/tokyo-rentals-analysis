@@ -171,7 +171,7 @@ A common approach seems to be to generate a reusable URL seeded with specific se
 At first glance this seems brittle, but due to the aforementioned quirk of Japan's web services, there is some durability to links as sites rarely change or at least not in breaking ways.
 
 Take for instance the following link, which was used in a [[https://github.com/georgeburry/tokyo-rental-prices/tree/master][similar project]] in 2018:
-#+begin_src jupyter-python :eval yes :results silent
+#+begin_src jupyter-python :noweb-ref search-url :eval yes :results silent
 # this is the URL generated after choosing specific search criteria on the website (e.g. location, house type, price range)
 search_url = "http://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&ta=13&sc=13101&sc=13102&sc=13103&sc=13104&sc=13105&sc=13113&cb=0.0&ct=9999999&et=9999999&cn=9999999&mb=0&mt=9999999&shkr1=03&shkr2=03&shkr3=03&shkr4=03&fw2="
 #+end_src
@@ -507,6 +507,7 @@ Conduct comparative analysis between different districts or neighborhoods within
 # Tools for scraping SUUMO
 <<requirements>>
 
+<<search-url>>
 
 <<scrape-functions>>
 
