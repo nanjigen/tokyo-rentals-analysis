@@ -489,6 +489,33 @@ df_cleaned.loc[1]
 :END:
 Develop a data collection pipeline or script to automate the gathering of rental data from various sources.
 
+We'll to use the ~pandas.DataFrame.pipe~ to setup a simple data pipeline that runs from extraction via scraping, through our exploratory and cleaning dataframe transformations and ending in loading into an sqlite3 database; effectively giving us an ETL pipeline.
+
+This demonstrated below:
+#+begin_src jupyter-python
+df_cleaned = load_data(1, 2).pipe(clean_numeric_data)
+df_cleaned.head()
+#+end_src
+
+#+RESULTS:
+#+begin_example
+              Title   Locality Floor   Size Layout    Rent  \
+0  ザ・グランクラッセ日本橋イースト  東京都中央区新川２     5  65.72   3LDK  330000
+1  ザ・グランクラッセ日本橋イースト  東京都中央区新川２    12  65.72   3LDK  330000
+2  ザ・グランクラッセ日本橋イースト  東京都中央区新川２    11   71.7   3LDK  350000
+3  ザ・グランクラッセ日本橋イースト  東京都中央区新川２    12   71.7   3LDK  350000
+4  ザ・グランクラッセ日本橋イースト  東京都中央区新川２     7  71.44   3LDK  350000
+
+                                                Link Rooms
+0  https://suumo.jp/chintai/jnc_000079775721/?bc=...     3
+1  https://suumo.jp/chintai/jnc_000082788184/?bc=...     3
+2  https://suumo.jp/chintai/jnc_000080944199/?bc=...     3
+3  https://suumo.jp/chintai/jnc_000082788185/?bc=...     3
+4  https://suumo.jp/chintai/jnc_000082479900/?bc=...     3
+#+end_example
+
+Now lets have this as reproducible functions.
+
 #+end_example
 
 * TODO Analysis
