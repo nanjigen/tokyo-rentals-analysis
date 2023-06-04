@@ -482,6 +482,13 @@ df_cleaned.loc[1]
 : Rooms                                                       3
 : Name: 1, dtype: object
 
+* TODO Develop data collection pipeline
+:PROPERTIES:
+:CREATED:  [2023-05-23 Tue 17:02]
+:ID:       630ccbf5-6f99-40ae-9f6e-2ec5541f04c2
+:END:
+Develop a data collection pipeline or script to automate the gathering of rental data from various sources.
+
 #+end_example
 
 * TODO Analysis
