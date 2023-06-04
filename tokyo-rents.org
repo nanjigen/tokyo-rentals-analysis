@@ -138,17 +138,20 @@ First those we can define by ~Guix~'s own packages:
         "emacs-jupyter"
         "guix-jupyter"
         "python-beautifulsoup4"
-        "python-pandas"))
+        "python-pandas"
+        "sqlite"
+        "python-sqlalchemy"))
 #+end_src
 
 And then imported into Python:
-#+begin_src jupyter-python :results silent
+#+begin_src jupyter-python :noweb-ref requirements :results silent
 import requests, re
-from bs4 import BeautifulSoup
 from time import time, sleep
 from random import randint
+from bs4 import BeautifulSoup
 import pandas as pd
 import matplotlib.pyplot as plt
+from sqlalchemy import create_engine
 
 plt.style.use('fivethirtyeight')
 color_pal = plt.rcParams["axes.prop_cycle"].by_key()["color"]
@@ -500,8 +503,10 @@ Conduct comparative analysis between different districts or neighborhoods within
 :ID:       4396c626-15b4-4752-ad41-3ead8942475e
 :END:
 
-#+begin_src python :tangle suumo.py
+#+begin_src python :tangle suumo.py :eval no
 # Tools for scraping SUUMO
+<<requirements>>
+
 
 <<scrape-functions>>
 
