@@ -313,8 +313,22 @@ print(extract_table_text(house_collector(1, 2))[1])
 
 #+RESULTS:
 : {'Title': 'トルナーレ日本橋浜町', 'Locality': '東京都中央区日本橋浜町３', 'Floor': '36階', 'Rent': '19万円', 'Admin Fee': '10000円', 'Deposit': '19万円', 'Key money': '19万円', 'Layout': 'ワンルーム', 'Size': '44.01m2', 'Link': 'https://suumo.jp/chintai/jnc_000082906762/?bc=100325224283'}
+*** Load dataframe function
+:PROPERTIES:
+:CREATED:  [2023-06-04 Sun 09:14]
+:ID:       ed9d39e5-119a-42a2-a619-a7ae5ea63a32
+:END:
+
+Let's create a simple function to load the df into memory for the given range.
+#+begin_src jupyter-python :noweb-ref scrape-functions :results silent
+def load_data(start, end):
+    df = pd.DataFrame(extract_table_text(house_collector(start, end)))
+    df = df[['Title', 'Locality', 'Floor', 'Size', 'Layout', 'Rent', 'Link']]
+    return df
 
 Lets take a look at the frame:
+#+end_src
+
 #+begin_src jupyter-python :results yes
 df = pd.DataFrame(extract_table_text(house_collector(1, 2)))
 df = df[['Title', 'Locality', 'Floor', 'Size', 'Layout', 'Rent', 'Link']]
