@@ -368,13 +368,6 @@ Which is not supported by =Numpy=.
 :END:
 Research and identify additional sources of rental data in Tokyo to enrich the dataset.
 
-** TODO Develop data collection pipeline
-:PROPERTIES:
-:CREATED:  [2023-05-23 Tue 17:02]
-:ID:       630ccbf5-6f99-40ae-9f6e-2ec5541f04c2
-:END:
-Develop a data collection pipeline or script to automate the gathering of rental data from various sources.
-
 * TODO Cleaning
 :PROPERTIES:
 :CREATED:  [2023-05-23 Tue 16:28]
@@ -515,6 +508,38 @@ df_cleaned.head()
 #+end_example
 
 Now lets have this as reproducible functions.
+
+*** Piped database creation
+:PROPERTIES:
+:CREATED:  [2023-06-04 Sun 16:20]
+:ID:       01b405a2-05c5-4280-8b78-fbab4d28e433
+:END:
+
+Here we set variable name with the string of a yearly table. Then we use that variable when invoking the =to_sql= method on the piped object, which returns a cleaned pandas DataFrame.
+
+We set the =if_exists= arguments to ='replace'= so that the code doesn't fail if the table already exists in the database. We can also change =if_exists= to ='append'= and add exception handling in a more robust version of this program.
+
+Create =suumo.db= and establish connection to resultant database:
+#+begin_src jupyter-python :noweb-ref database-functions :results slient
+def create_database(db, table, start, end):
+    engine = create_engine('sqlite:///%s' %db, echo=True)
+    sqlite_table = table
+    sqlite_connection = engine.connect()
+    (load_data(start, end)
+    .pipe(clean_numeric_data).to_sql(
+        sqlite_table,
+        sqlite_connection,
+        if_exists='replace',
+        index=False
+    ))
+    sqlite_connection.close()
+
+#+end_src
+
+Turn into test
+#+begin_src jupyter-python :results silent :eval no
+create_database("suumo-test.db", "Suumo2023_test", 1, 2)
+#+end_src
 
 #+end_example
 
