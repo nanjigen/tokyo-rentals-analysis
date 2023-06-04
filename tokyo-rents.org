@@ -326,31 +326,29 @@ def load_data(start, end):
     df = df[['Title', 'Locality', 'Floor', 'Size', 'Layout', 'Rent', 'Link']]
     return df
 
-Lets take a look at the frame:
 #+end_src
 
+Lets take a look at the initial frame:
 #+begin_src jupyter-python :results yes
-df = pd.DataFrame(extract_table_text(house_collector(1, 2)))
-df = df[['Title', 'Locality', 'Floor', 'Size', 'Layout', 'Rent', 'Link']]
-# df.to_csv("Output.csv")
+df = load_data(1, 2)
 df.head()
 #+end_src
 
 #+RESULTS:
 #+begin_example
-                      Title      Locality Floor      Size Layout    Rent  \
-0  京王井の頭線 神泉駅 地下1地上2階建 築41年     東京都渋谷区松濤２  1-2階  294.64m2   9LDK   300万円
-1                トルナーレ日本橋浜町  東京都中央区日本橋浜町３   36階   44.01m2  ワンルーム    19万円
-2                トルナーレ日本橋浜町  東京都中央区日本橋浜町３   36階   44.01m2  ワンルーム    20万円
-3                トルナーレ日本橋浜町  東京都中央区日本橋浜町３   39階   56.98m2   1LDK  24.9万円
-4                トルナーレ日本橋浜町  東京都中央区日本橋浜町３   44階   60.16m2   1LDK  24.5万円
+              Title   Locality Floor     Size Layout    Rent  \
+0  ザ・グランクラッセ日本橋イースト  東京都中央区新川２    5階  65.72m2   3LDK    33万円
+1  ザ・グランクラッセ日本橋イースト  東京都中央区新川２   12階  65.72m2   3LDK  33.7万円
+2  ザ・グランクラッセ日本橋イースト  東京都中央区新川２   11階   71.7m2   3LDK  35.3万円
+3  ザ・グランクラッセ日本橋イースト  東京都中央区新川２   12階   71.7m2   3LDK  35.4万円
+4  ザ・グランクラッセ日本橋イースト  東京都中央区新川２    7階  71.44m2   3LDK  35.4万円
 
                                                 Link
-0  https://suumo.jp/chintai/jnc_000078769288/?bc=...
-1  https://suumo.jp/chintai/jnc_000082906762/?bc=...
-2  https://suumo.jp/chintai/jnc_000081925350/?bc=...
-3  https://suumo.jp/chintai/jnc_000061463143/?bc=...
-4  https://suumo.jp/chintai/jnc_000082255390/?bc=...
+0  https://suumo.jp/chintai/jnc_000079775721/?bc=...
+1  https://suumo.jp/chintai/jnc_000082788184/?bc=...
+2  https://suumo.jp/chintai/jnc_000080944199/?bc=...
+3  https://suumo.jp/chintai/jnc_000082788185/?bc=...
+4  https://suumo.jp/chintai/jnc_000082479900/?bc=...
 #+end_example
 
 As we can see, our frame is created correctly, however there are entries that are non-numeric which we actually want as number values in order to begin EDA:
