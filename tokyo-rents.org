@@ -143,6 +143,15 @@ First those we can define by ~Guix~'s own packages:
         "python-sqlalchemy"))
 #+end_src
 
+# TODO add section for activing env
+#+begin_src elisp
+(progn
+  (require 'jupyter)
+  (find-file "/docker:ecstatic_knuth:/home/nandev/test.py")
+  (org-babel-jupyter-aliases-from-kernelspecs t)
+  (org-reload))
+#+end_src
+
 And then imported into Python:
 #+begin_src jupyter-python :noweb-ref requirements :results silent
 import requests, re
