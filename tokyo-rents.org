@@ -242,14 +242,26 @@ def house_collector(start, end):
 
 #+end_src
 
-Maybe turn this into a test?
+We can tell that a given page contains 30 results:
 #+begin_src jupyter-python :eval yes
 # print(house_collector(1, 2)[1])
-len(house_collector(1, 4))
+len(house_collector(1, 2))
 #+end_src
 
 #+RESULTS:
-: 90
+: 30
+
+Lets test for this to make sure we're getting the same kind of results for a given page:
+#+begin_src jupyter-python :noweb-ref tests :results silent
+def test_house_collector():
+    expected_houses = 30
+    houses = house_collector(1, 2) ;; TODO use randint() = x-1
+    # Check if the houses are collected correctly
+    assert len(houses) == 30
+    # for house, expected_house in zip(houses, expected_houses):
+    #     assert house.text.strip() == expected_house
+#+end_src
+
 
 *** Title details
 :PROPERTIES:
