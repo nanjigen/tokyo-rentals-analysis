@@ -222,30 +222,28 @@ As we can see, the original still works - albeit with more results than the orig
 :ID:       63efe878-e4dd-4ce8-875e-112b46c34442
 :END:
 
-Iterate pages by adding page number to end of search URL each loop.
-Build this into the target collection of houses by filling the =property_list= variable with the house_elements list via the ~.extend~ method:
+1. Create session object outside loop via =requests.Session()= for connection pooling.
+2. Iterate pages by suffixing a pagination keyword (=&page=) on the url, adding page number to end of search URL each loop.
+3. Use a more specific CSS selector for =cassetteitem=, =div.cassetteitem=.
+4. Build this into the target collection of houses with a generator at =property_list=, saving on memory by yielding house elements one by one.
+5. ~try~ and ~except~ for raising errors on pulling a particular page.
 
 #+begin_src jupyter-python :noweb-ref scrape-functions :results silent
 def house_collector(start_page, end_page):
-    """Build list of property by looping through pages of search"""
-    # property_list = []
+    """Build list of properties by looping through pages of search."""
     session = requests.Session()
     paginated_url = search_url + '&page='
 
-    for page in range(start, end):
+    for page in range(start_page, end_page):
         try:
             response = session.get(paginated_url + str(page))
             response.raise_for_status()  # Raise an exception if the request was not successful
-            # c = r.content
             soup = BeautifulSoup(response.content,"html.parser")
-            # house_elements = soup.find_all(lambda tag: tag.name == 'div' and
-                                        # tag.get('class') == ['cassetteitem'])
             # "cassetteitem" is the class for each house
             yield from soup.select('div.cassetteitem')
             sleep(randint(1,3))
         except requests.exceptions.RequestException as e:
             print(f"Error occurred while fetching page {page}: {e}")
-            # property_list.extend(house_elements)
     property_list = list(generate_house_elements)
     return property_list
 
