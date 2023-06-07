@@ -269,6 +269,10 @@ def test_house_collector():
     #     assert house.text.strip() == expected_house
 #+end_src
 
+#+begin_src shell :results code
+pytest tests/test_suumo.py::test_house_collector
+#+end_src
+
 
 *** Title details
 :PROPERTIES:
