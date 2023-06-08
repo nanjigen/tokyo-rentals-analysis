@@ -313,27 +313,23 @@ print(extract_detail_text(house_collector(1, 2))[0])
 
 TODO, use title function in place of explicit entry below.
 #+begin_src jupyter-python :noweb-ref scrape-functions :results silent
-def extract_table_text(html):
-    """Extract text form row data in table"""
+def extract_house_data(html):
+    """Extract text from row data in table"""
     house_data = []
     for cassetteitem in html:
-        table = cassetteitem.find('table',{'class','cassetteitem_other'})
-        rows = table.find_all('tr', class_='js-cassette_link')
-        for row in rows:
-            columns = row.find_all('td')
-            row_data = {
-                'Title': cassetteitem.find('div',{'class','cassetteitem_content-title'}).text,
-                'Locality': cassetteitem.find('li',{'class','cassetteitem_detail-col1'}).text,
-                'Floor': columns[2].get_text().strip(),
-                'Rent': columns[3].find('span', class_='cassetteitem_price--rent').text,
-                'Admin Fee': columns[3].find('span', class_='cassetteitem_price--administration').get_text().strip(),
-                'Deposit': columns[4].find('span', class_='cassetteitem_price--deposit').get_text().strip(),
-                'Key money': columns[4].find('span', class_='cassetteitem_price--gratuity').get_text().strip(),
-                'Layout': columns[5].find('span', class_='cassetteitem_madori').get_text().strip(),
-                'Size': columns[5].find('span', class_='cassetteitem_menseki').get_text().strip(),
-                'Link': "https://suumo.jp" + row.find('a', class_='js-cassette_link_href')['href']
-                }
-            house_data.append(row_data)
+        row_data = {
+            'Title': extract_title(cassetteitem),
+            'Locality': extract_locality(cassetteitem),
+            'Floor': extract_floor(cassetteitem),
+            'Rent': extract_rent(cassetteitem),
+            'Admin Fee': extract_admin_fee(cassetteitem),
+            'Deposit': extract_deposit(cassetteitem),
+            'Key money': extract_key_money(cassetteitem),
+            'Layout': extract_layout(cassetteitem),
+            'Size': extract_size(cassetteitem),
+            'Link': extract_link(cassetteitem),
+        }
+        house_data.append(row_data)
     return house_data
 
 #+end_src
