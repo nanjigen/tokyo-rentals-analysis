@@ -463,6 +463,9 @@ Apply data cleaning techniques to address inconsistencies, missing values, and o
 
 We need to reconfigure our data frame so that relevant columns contain numerical values. We also will be inserting a new column =Rooms= to represent how many liveable rooms there are without losing access to the XLDK layout convention:
 
+Use input validation to ensure a valid Pandas DataFrame or Series and use a DataFrame Copy to ensure immutablity of original dataframe.
+
+For speed I use pre-compiled regexes via =re.compile()= outside the function body. Finally we do a simple test of the OG df to see if it needs to be cleaned, and further tests of unwanted strings in the respective columns before applying the reconfigures to avoid multiplying values unnecessarily.
 #+begin_src jupyter-python :noweb-ref clean-functions :results silent
 def clean_numeric_data(dataframe: pd.DataFrame) -> pd.DataFrame:
     """
@@ -484,7 +487,7 @@ def clean_numeric_data(dataframe: pd.DataFrame) -> pd.DataFrame:
     int_value = re.compile(r'\d+')
 
     # Check if respective column needs cleaning
-    if not len(df) == 0:
+    if not df.empty:
         if df['Floor'].str.contains("階").any():
             df['Floor'] = df['Floor'].apply(lambda x: re.findall(int_value, x)[0]
                                             if re.findall(int_value, x)
