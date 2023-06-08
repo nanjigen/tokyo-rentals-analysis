@@ -479,8 +479,10 @@ def clean_numeric_data(dataframe: pd.DataFrame) -> pd.DataFrame:
 
     df = dataframe.copy()
 
-    decimal_value = r'(\d+(?:\.\d+)?)'
-    int_value = r'\d+'
+    # Pre-compile regular expressions
+    decimal_value = re.compile(r'(\d+(?:\.\d+)?)')
+    int_value = re.compile(r'\d+')
+
     # Check if respective column needs cleaning
     if not len(df) == 0:
         if df['Floor'].str.contains("階").any():
