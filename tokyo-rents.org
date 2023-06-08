@@ -391,12 +391,20 @@ print(extract_table_text(house_collector(1, 2))[1])
 :ID:       ed9d39e5-119a-42a2-a619-a7ae5ea63a32
 :END:
 
-Let's create a simple function to load the df into memory for the given range.
+Let's create a simple function to load the df into memory for the given results page range.
+Use =try-except= block to catch exceptions during the data loading process.
+# TODO Consider using types
+
 #+begin_src jupyter-python :noweb-ref scrape-functions :results silent
-def load_data(start, end):
-    df = pd.DataFrame(extract_table_text(house_collector(start, end)))
-    df = df[['Title', 'Locality', 'Floor', 'Size', 'Layout', 'Rent', 'Link']]
-    return df
+def load_data(start_page, end_page):
+    """Load the data into a DataFrame for the given results page range."""
+    try:
+        extracted_data = extract_house_data(house_collector(start_page, end_page))
+        df = pd.DataFrame(extracted_data, columns=['Title', 'Locality', 'Floor', 'Size', 'Layout', 'Rent', 'Link'])
+        return df
+    except Exception as e:
+        print(f"Error occurred while loading data: {e}")
+        return None
 
 #+end_src
 
