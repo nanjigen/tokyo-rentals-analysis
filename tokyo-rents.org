@@ -332,6 +332,50 @@ def extract_house_data(html):
         house_data.append(row_data)
     return house_data
 
+def extract_title(cassetteitem):
+    return cassetteitem.find('div', {'class', 'cassetteitem_content-title'}).text
+
+def extract_locality(cassetteitem):
+    return cassetteitem.find('li', {'class', 'cassetteitem_detail-col1'}).text
+
+def extract_floor(cassetteitem):
+    columns = cassetteitem.find_all('td')
+    return columns[2].get_text().strip()
+
+def extract_rent(cassetteitem):
+    columns = cassetteitem.find_all('td')
+    return columns[3].find('span', class_='cassetteitem_price--rent').text
+
+def extract_admin_fee(cassetteitem):
+    columns = cassetteitem.find_all('td')
+    admin_fee = columns[3].find('span', class_='cassetteitem_price--administration')
+    return admin_fee.get_text().strip() if admin_fee else ''
+
+def extract_deposit(cassetteitem):
+    columns = cassetteitem.find_all('td')
+    deposit = columns[4].find('span', class_='cassetteitem_price--deposit')
+    return deposit.get_text().strip() if deposit else ''
+
+def extract_key_money(cassetteitem):
+    columns = cassetteitem.find_all('td')
+    key_money = columns[4].find('span', class_='cassetteitem_price--gratuity')
+    return key_money.get_text().strip() if key_money else ''
+
+def extract_layout(cassetteitem):
+    columns = cassetteitem.find_all('td')
+    layout = columns[5].find('span', class_='cassetteitem_madori')
+    return layout.get_text().strip() if layout else ''
+
+def extract_size(cassetteitem):
+    columns = cassetteitem.find_all('td')
+    size = columns[5].find('span', class_='cassetteitem_menseki')
+    return size.get_text().strip() if size else ''
+
+def extract_link(cassetteitem):
+    row = cassetteitem.find('tr', class_='js-cassette_link')
+    link = row.find('a', class_='js-cassette_link_href')
+    return "https://suumo.jp" + link['href'] if link else ''
+
 #+end_src
 
 Getting the first member of the generated list shows a desirable dictionary entry:
