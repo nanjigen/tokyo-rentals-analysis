@@ -144,7 +144,9 @@ https://gitlab.inria.fr/guix-hpc/guix-kernel
 :CREATED:  [2023-06-03 Sat 12:05]
 :ID:       3d73e3bd-690b-47d1-af42-d18a8c973bf5
 :END:
-First well define out requirements.
+
+Specify requirements.
+
 First those we can define by ~Guix~'s own packages:
 #+begin_src scheme :tangle manifest.scm :eval no
 (specifications->manifest
@@ -156,15 +158,30 @@ First those we can define by ~Guix~'s own packages:
         "guix-jupyter"
         "python-beautifulsoup4"
         "python-pandas"
+        "python-seaborn"
+        "bash"
+        "font-google-noto"
         "sqlite"
         "python-sqlalchemy"))
 #+end_src
 
-# TODO add section for activing env
-#+begin_src elisp
+# TODO run conversion to requirements.txt file
+
+** Startup
+:PROPERTIES:
+:CREATED:  [2023-08-01 Tue 15:52]
+:ID:       260dd424-89d2-4172-9a4c-5be905661ccc
+:END:
+
+This is some magic to get ~conda~ working in a docker container. The official package from the ~guix~ repos isn't currently compiling so we have ~tramp~ communicate to the docker instance with ~docker-tramp~. This is run via buffer local variables at the end of the org file.
+
+#+name: startup
+#+begin_src elisp :tangle settings.el :results silent
 (progn
-  (require 'jupyter)
-  (find-file "/docker:ecstatic_knuth:/home/nandev/test.py")
+  (load "ob-jupyter")
+  (if (featurep 'docker-core)
+      (find-file "/docker:ecstatic_knuth:/home/nandev/test.py"))
+  ;;     (find-file-noselect "/docker:ecstatic_knuth:/home/nandev/test.py")) ;; FIXME I don't think this works to trigger the docker package
   (org-babel-jupyter-aliases-from-kernelspecs t)
   (org-reload))
 #+end_src
