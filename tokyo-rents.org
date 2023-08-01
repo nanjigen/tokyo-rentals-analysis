@@ -186,19 +186,65 @@ This is some magic to get ~conda~ working in a docker container. The official pa
   (org-reload))
 #+end_src
 
+** Imports
+:PROPERTIES:
+:CREATED:  [2023-08-01 Tue 15:52]
+:ID:       182f0a90-3d08-4ae1-afa8-4249c8df89a4
+:END:
+
 And then imported into Python:
-#+begin_src jupyter-python :noweb-ref requirements :results silent
+#+begin_src jupyter-python :noweb-ref imports :results silent
 import requests, re
+import json
+# import pytest
 from time import time, sleep
 from random import randint
 from bs4 import BeautifulSoup
 import pandas as pd
+
+import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+fprop = fm.FontProperties(fname='/fonts/NotoSansCJKjp-Regular.otf')
+
+import seaborn as sns
+# sns.set(font='NotoSansCJKjp-Regular.otf')
+sns.set(font='Noto Sans CJK JP')
+
 from sqlalchemy import create_engine
 
 plt.style.use('fivethirtyeight')
 color_pal = plt.rcParams["axes.prop_cycle"].by_key()["color"]
 # import database
+
+#+end_src
+
+Get Japanese fonts to display in matplotlib and seaborn:
+https://medium.com/@rocsky/how-to-let-matplotlib-support-chinese-without-install-font-ccde385d088a
+#+begin_src jupyter-python :noweb-ref imports :results silent
+# [f for f in fm.fontManager.ttflist if 'Noto' in f.name]
+# print(fm.matplotlib_fname())
+# matplotlib.font_manager.findSystemFonts()
+from matplotlib import pyplot as plt,font_manager as fm
+from pathlib import Path
+import os
+#Restore the `.rcParams` from Matplotlib's internal default style.
+plt.rcdefaults()
+
+path = Path(os.getcwd())
+# fname=os.path.join(path.parent.absolute(),'data','NotoSansCJKjp-Regular.otf')
+fname=os.path.join(path.absolute(),'fonts','NotoSansCJKjp-Regular.otf')
+fontProperties=fm.FontProperties(fname=fname,size=14)
+default_font=fontProperties.get_name()# "Arial Unicode MS"
+if default_font not in [f.name for f in fm.fontManager.ttflist]:
+    print(f"{default_font} does not exist, let's add it to fontManager" )
+
+if fname not in [f.fname for f in fm.fontManager.ttflist]:
+    fm.fontManager.addfont(fname) # need absolute path
+
+plt.rcParams['font.sans-serif']=[default_font]+plt.rcParams['font.sans-serif']
+plt.rcParams['axes.unicode_minus']=False # in case minus sign is shown as box
+# "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
 #+end_src
 
 ** Scraping from SUUMO
