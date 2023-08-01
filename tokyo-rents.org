@@ -11,15 +11,32 @@
 :ID:       e8ce6b0d-89f0-48b4-aa28-612a1dc6cd9f
 :END:
 
-The purpose of this project is to address a problem often faced when living in Tokyo. Rent prices can vary wildly based on many factors. It also aims to demonstrate my proficiency in applying data analysis with Python.
+The purpose of this project is to address a problem often faced when living in Tokyo. Rent prices can vary wildly based on many factors.
 
-The goal of the Tokyo Rentals project is to analyze rental prices in Tokyo and create a data-driven visualization to provide insights into the rental market in the central districts of Tokyo.
+These include but are not limited to:
+- Square meterage
+- Age
+- Location
+- Number of rooms
+- Distance from nearest station
+
+It also aims to demonstrate my proficiency in applying data analysis with Python.
+
+We'll analyze rental prices in Tokyo and create a data-driven visualization to provide insights into the rental market in the central districts of Tokyo.
 
 1. Data collection: Collect rental price data in Tokyo from various sources, including real estate websites, government websites, and rental agencies.
 2. Data cleaning: Clean and organize the collected data by removing errors or inconsistencies and formatting it for analysis.
 3. Data analysis: Analyze the data using statistical methods such as regression analysis, clustering, and time series analysis to identify patterns and trends.
 4. Data visualization: Visualize the analyzed data using charts, graphs, and maps to facilitate understanding and interpretation.
 5. Data sharing: Share the analyzed data and visualizations through a website or social media platforms.
+
+Some questions to answer:
+
+- "What are we trying to solve for?"
+- "What is the ideal rental location for a given set of criteria?"
+- "What tools will be used?"
+- "How can we make the research as reproduce-able as possible?"
+- "How can I demonstrate my proficiency with Python, data analytics and Google cloud?"
 
 ** Features
 :PROPERTIES:
