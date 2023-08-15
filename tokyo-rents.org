@@ -314,17 +314,19 @@ def house_collector(start_page, end_page):
     session = requests.Session()
     paginated_url = search_url + '&page='
 
-    for page in range(start_page, end_page):
-        try:
-            response = session.get(paginated_url + str(page))
-            response.raise_for_status()  # Raise an exception if the request was not successful
-            soup = BeautifulSoup(response.content,"html.parser")
-            # "cassetteitem" is the class for each house
-            yield from soup.select('div.cassetteitem')
-            sleep(randint(1,3))
-        except requests.exceptions.RequestException as e:
-            print(f"Error occurred while fetching page {page}: {e}")
-    property_list = list(generate_house_elements)
+    def generate_house_elements():
+        for page in range(start_page, end_page):
+            try:
+                response = session.get(paginated_url + str(page))
+                response.raise_for_status()  # Raise an exception if the request was not successful
+                soup = BeautifulSoup(response.content,"html.parser")
+                # "cassetteitem" is the class for each house
+                yield from soup.select('div.cassetteitem')
+                sleep(randint(1,3))
+            except requests.exceptions.RequestException as e:
+                print(f"Error occurred while fetching page {page}: {e}")
+
+    property_list = list(generate_house_elements())
     return property_list
 
 #+end_src
