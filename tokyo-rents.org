@@ -153,6 +153,7 @@ First those we can define by ~Guix~'s own packages:
   (list "python"
         "python-ipython"
         "python-ipykernel"
+        "python-pytest"
         "jupyter"
         "emacs-jupyter"
         "guix-jupyter"

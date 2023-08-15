@@ -2,7 +2,14 @@
   (list "python"
         "python-ipython"
         "python-ipykernel"
+        "python-pytest"
         "jupyter"
+        "emacs-jupyter"
         "guix-jupyter"
         "python-beautifulsoup4"
-        "python-pandas"))
+        "python-pandas"
+        "python-seaborn"
+        "bash"
+        "font-google-noto"
+        "sqlite"
+        "python-sqlalchemy"))
