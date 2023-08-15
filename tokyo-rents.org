@@ -332,9 +332,8 @@ def house_collector(start_page, end_page):
 #+end_src
 
 We can tell that a given page contains 30 results:
-#+begin_src jupyter-python :eval yes
-# print(house_collector(1, 2)[1])
-len(house_collector(1, 2))
+#+begin_src jupyter-python :eval no
+sum(1 for _ in house_collector(1, 2))
 #+end_src
 
 #+RESULTS:
