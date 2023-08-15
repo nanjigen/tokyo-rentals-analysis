@@ -385,13 +385,47 @@ print(extract_detail_text(house_collector(1, 2))[0])
 #+end_src
 
 #+RESULTS:
-: {'Title': 'ボストーク・ネオ', 'Locality': '東京都千代田区東神田２'}
+: {'Title': 'アジールコート芝公園', 'Locality': '東京都港区芝２'}
+
+We won't end up using this code in the extraction phase.
 
 *** Table extraction
 :PROPERTIES:
 :CREATED:  [2023-06-03 Sat 13:41]
 :ID:       7ed8c278-8155-4a58-9c73-027683515ad1
 :END:
+
+Within each =cassetteitem= ~div~, there is a table containing the individual apartments associated with that particular building. These are stored in ~tr~ rows with the class =js-cassette_link=.
+
+#+begin_src python
+def bukken_by_row(html):
+    house_data = []
+    for cassetteitem in html:
+        try:
+            title = cassetteitem.find("div", class_="cassetteitem_content-title").text.strip()
+            table = cassetteitem.find('table', class_='cassetteitem_other')
+            rows = table.select('tbody > tr.js-cassette_link')
+            # rows = cassetteitem.select('table.cassetteitem_other tbody > tr.js-cassette_link')
+            house_data = [row.find('span.cassetteitem_menseki').text.strip() for row in rows]
+
+            yield title, house_data
+            # for row in rows:
+            #     area = row.find('span', class_='cassetteitem_menseki').text.strip()
+
+            #     house_data.append(area)
+            # print(title)
+        except AttributeError:
+            # Handle missing elements or other exceptions
+            pass
+    # return house_data
+
+sum(1 for _ in bukken_by_row(house_collector(1, 2)))
+# bukken_by_row(house_collector(1, 2))
+
+#+end_src
+
+#+RESULTS:
+: 0
 
 '間取り' (madori) refers to the house plan, rendered in the =XLDK= format, where X is the number of rooms and D and K respectively refer to Dining room and Kitchen, and are optional. As is standard with Japanese listings, this is also often accompanied by an actual floor plan graphic.
 
