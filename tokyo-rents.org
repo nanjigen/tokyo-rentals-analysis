@@ -435,21 +435,30 @@ def extract_house_data(html):
     """Extract text from row data in table"""
     house_data = []
     for cassetteitem in html:
-        row_data = {
-            'Title': extract_title(cassetteitem),
-            'Locality': extract_locality(cassetteitem),
-            'Floor': extract_floor(cassetteitem),
-            'Rent': extract_rent(cassetteitem),
-            'Admin Fee': extract_admin_fee(cassetteitem),
-            'Deposit': extract_deposit(cassetteitem),
-            'Key money': extract_key_money(cassetteitem),
-            'Layout': extract_layout(cassetteitem),
-            'Size': extract_size(cassetteitem),
-            'Link': extract_link(cassetteitem),
-        }
-        house_data.append(row_data)
+        table = cassetteitem.find('table',{'class','cassetteitem_other'})
+        rows = table.find_all('tr', class_='js-cassette_link')
+        for row in rows:
+            columns = row.find_all('td')
+            row_data = {
+                'Title': extract_title(cassetteitem),
+                'Locality': extract_locality(cassetteitem),
+                'Floor': extract_floor(columns),
+                'Rent': extract_rent(columns),
+                'Admin Fee': extract_admin_fee(columns),
+                'Deposit': extract_deposit(columns),
+                'Key money': extract_key_money(columns),
+                'Layout': extract_layout(columns),
+                'Size': extract_size(columns),
+                'ID': extract_id(columns),
+                'Coordinates': extract_gps_location(row),
+                'Link': extract_link(row),
+            }
+            house_data.append(row_data)
     return house_data
 
+#+end_src
+
+#+begin_src python :noweb-ref scrape-functions :results silent
 def extract_title(cassetteitem):
     return cassetteitem.find('div', {'class', 'cassetteitem_content-title'}).text
 
