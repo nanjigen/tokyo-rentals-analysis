@@ -300,19 +300,23 @@ As we can see, the original still works - albeit with more results than the orig
 :ID:       63efe878-e4dd-4ce8-875e-112b46c34442
 :END:
 
+Here we write a function who's aim is to collect rental listings in a given page range.
+
 1. Create session object outside loop via =requests.Session()= for connection pooling.
 2. Iterate pages by suffixing a pagination keyword (=&page=) on the url, adding page number to end of search URL each loop.
 3. Use a more specific CSS selector for =cassetteitem=, =div.cassetteitem=.
-4. Build this into the target collection of houses with a generator at =property_list=, saving on memory by yielding house elements one by one.
-5. ~try~ and ~except~ for raising errors on pulling a particular page.
+4. Basic rate limiting via a random sleep
+5. Build this into the target collection of rental listings with a generator at =rental_listings=, saving on memory by yielding house elements one by one.
+6. ~try~ and ~except~ for raising errors on pulling a particular page.
+
 
 #+begin_src python :noweb-ref scrape-functions :results silent
-def house_collector(start_page, end_page):
-    """Build list of properties by looping through pages of search."""
+def collect_rental_listings(start_page, end_page):
+    """Collect rental listings by looping through search result pages."""
     session = requests.Session()
     paginated_url = search_url + '&page='
 
-    def generate_house_elements():
+    def fetch_listing_elements():
         for page in range(start_page, end_page):
             try:
                 response = session.get(paginated_url + str(page))
@@ -324,32 +328,33 @@ def house_collector(start_page, end_page):
             except requests.exceptions.RequestException as e:
                 print(f"Error occurred while fetching page {page}: {e}")
 
-    property_list = list(generate_house_elements())
-    return property_list
+    rental_listings = list(fetch_listing_elements())
+    return rental_listings
 
 #+end_src
 
-We can tell that a given page contains 30 results:
-#+begin_src python :eval no
-sum(1 for _ in house_collector(1, 2))
+We can tell that a given page contains 30 results, here we test the first page:
+#+begin_src python :eval yes
+sum(1 for _ in collect_rental_listings(0, 1))
 #+end_src
 
 #+RESULTS:
 : 30
 
 Lets test for this to make sure we're getting the same kind of results for a given page:
-#+begin_src python :noweb-ref tests :results silent
-def test_house_collector():
+#+begin_src python :noweb-ref tests :results silent :eval no
+def test_rental_listing_collection():
+    """Test if rental listings are collected correctly."""
     expected_houses = 30
     # houses = house_collector(1, 2) # TODO use randint() = x-1
     # Check if the houses are collected correctly
-    assert sum(1 for _ in house_collector(1, 2)) == 30
+    assert sum(1 for _ in collect_rental_listings(1, 2)) == 30
     # for house, expected_house in zip(houses, expected_houses):
     #     assert house.text.strip() == expected_house
 #+end_src
 
-#+begin_src sh :session tests :eval yes
-pytest tests/test_suumo.py::test_house_collector
+#+begin_src sh :session tests :results html :eval yes
+pytest tests/test_suumo.py::test_rental_listing_collection
 #+end_src
 
 #+RESULTS:
