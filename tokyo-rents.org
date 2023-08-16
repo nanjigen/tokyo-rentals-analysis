@@ -261,7 +261,7 @@ A common approach seems to be to generate a reusable URL seeded with specific se
 At first glance this seems brittle, but due to the aforementioned quirk of Japan's web services, there is some durability to links as sites rarely change or at least not in breaking ways.
 
 Take for instance the following link, which was used in a [[https://github.com/georgeburry/tokyo-rental-prices/tree/master][similar project]] in 2018:
-#+begin_src python :noweb-ref search-url :eval yes :results silent
+#+begin_src python :noweb-ref constants :eval yes :results silent
 # this is the URL generated after choosing specific search criteria on the website (e.g. location, house type, price range)
 search_url = "http://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&ta=13&sc=13101&sc=13102&sc=13103&sc=13104&sc=13105&sc=13113&cb=0.0&ct=9999999&et=9999999&cn=9999999&mb=0&mt=9999999&shkr1=03&shkr2=03&shkr3=03&shkr4=03&fw2="
 #+end_src
@@ -302,7 +302,12 @@ As we can see, the original still works - albeit with more results than the orig
 
 Here we write a function who's aim is to collect rental listings in a given page range.
 
-1. Create session object outside loop via =requests.Session()= for connection pooling.
+1. Create [[https://docs.python-requests.org/en/latest/user/advanced/][Session object]] outside function via =requests.Session()= for connection pooling to improve performance. This can be a constant:
+
+#+begin_src python :noweb-ref constants :results silent
+session = requests.Session()
+#+end_src
+
 2. Iterate pages by suffixing a pagination keyword (=&page=) on the url, adding page number to end of search URL each loop.
 3. Use a more specific CSS selector for =cassetteitem=, =div.cassetteitem=.
 4. Basic rate limiting via a random sleep
@@ -313,7 +318,6 @@ Here we write a function who's aim is to collect rental listings in a given page
 #+begin_src python :noweb-ref scrape-functions :results silent
 def collect_rental_listings(start_page, end_page):
     """Collect rental listings by looping through search result pages."""
-    session = requests.Session()
     paginated_url = search_url + '&page='
 
     def fetch_listing_elements():
@@ -830,7 +834,8 @@ Conduct comparative analysis between different districts or neighborhoods within
 # Tools for scraping SUUMO
 <<requirements>>
 
-<<search-url>>
+# Constants
+<<constants>>
 
 <<scrape-functions>>
 
