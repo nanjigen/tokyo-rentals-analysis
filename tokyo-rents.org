@@ -346,24 +346,26 @@ sum(1 for _ in collect_rental_listings(0, 1))
 : 30
 
 Lets test for this to make sure we're getting the same kind of results for a given page:
-#+begin_src python :noweb-ref tests :results silent :eval no
-def test_rental_listing_collection():
-    """Test if rental listings are collected correctly."""
-    expected_houses = 30
-    # houses = house_collector(1, 2) # TODO use randint() = x-1
-    # Check if the houses are collected correctly
-    assert sum(1 for _ in collect_rental_listings(1, 2)) == 30
-    # for house, expected_house in zip(houses, expected_houses):
-    #     assert house.text.strip() == expected_house
+#+begin_src python :noweb-ref tests :eval no
+def test_number_of_rental_listings():
+    """Test if the expected number of rental listings are collected per page."""
+    expected_listings = 30
+    assert sum(1 for _ in collect_rental_listings(1, 2)) == expected_listings
 #+end_src
 
-#+begin_src sh :session tests :results html :eval yes
-pytest tests/test_suumo.py::test_rental_listing_collection
+Here we [[https://docs.pytest.org/en/7.1.x/how-to/usage.html][invoke pytest]] at the command-line to run a singular test function via its ~nodeid~ using the =::= syntax.
+Note the use of the ~-q~ (quiet) and ~--disable-warnings~ flags. These ensure low verbosity output in our ~RESULTS~ drawer, and will be the de facto for all in-buffer tests in the rest of the document, each test appearing after its respective function.
+
+Results are piped to ~tr~ for formatting.
+#+begin_src sh :session tests :results code :eval yes
+pytest -q --disable-warnings tests/test_suumo.py::test_number_of_rental_listings | tr -s ' '
 #+end_src
 
 #+RESULTS:
-: /usr/bin/sh: 3: pytest: not found
-
+#+begin_src sh
+. [100%]
+1 passed, 1 warning in 10.15s
+#+end_src
 
 *** Title details
 :PROPERTIES:
