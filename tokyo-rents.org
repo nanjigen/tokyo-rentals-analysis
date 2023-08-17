@@ -822,9 +822,40 @@ Conduct comparative analysis between different districts or neighborhoods within
 :PROPERTIES:
 :CREATED:  [2023-06-03 Sat 18:06]
 :ID:       9007fc1c-9c66-434a-8cb3-5227d6b0d9c0
+:header-args: :eval no :noweb yes
 :END:
 
-** suumo.py
+#+begin_src toml :tangle pyproject.toml
+[tool.pytest.ini_options]
+pythonpath = [
+  ".", "src",
+]
+#+end_src
+
+** .gitignore
+:PROPERTIES:
+:CREATED:  [2023-08-16 Wed 15:36]
+:ID:       47aba52e-f4c1-4da5-b2e0-b8eb4cacb0d7
+:END:
+
+=.gitignore= based off of [[https://github.com/github/gitignore/blob/main/Python.gitignore][Github's great boilerplate]]:
+
+#+begin_src conf :tangle .gitignore
+ # Byte-compiled / optimized / DLL files
+__pycache__/
+#+end_src
+
+** src
+:PROPERTIES:
+:CREATED:  [2023-06-07 Wed 18:14]
+:ID:       d05dcf01-a5e4-4263-b9dd-0ec0550e3db2
+:END:
+
+#+begin_src python :tangle src/suumo/__init__.py
+
+#+end_src
+
+*** suumo.py
 :PROPERTIES:
 :CREATED:  [2023-06-03 Sat 18:07]
 :ID:       4396c626-15b4-4752-ad41-3ead8942475e
@@ -832,7 +863,8 @@ Conduct comparative analysis between different districts or neighborhoods within
 
 #+begin_src python :tangle src/suumo/suumo.py
 # Tools for scraping SUUMO
-<<requirements>>
+# <<requirements>>
+<<imports>>
 
 # Constants
 <<constants>>
@@ -841,4 +873,23 @@ Conduct comparative analysis between different districts or neighborhoods within
 
 <<clean-functions>>
 
+<<database-functions>>
 #+end_src
+
+** tests/tests.py
+:PROPERTIES:
+:CREATED:  [2023-06-05 Mon 20:06]
+:ID:       421ebaa6-4722-4adc-a9d2-8e8667193d85
+:END:
+
+#+begin_src python :tangle tests/test_suumo.py
+from suumo.suumo import *
+
+<<tests>>
+
+#+end_src
+
+#+begin_src python :tangle tests/__init__.py
+
+#+end_src
+
