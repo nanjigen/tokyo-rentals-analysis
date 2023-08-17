@@ -71,7 +71,7 @@ def collect_rental_listings(start_page, end_page):
                 response = session.get(paginated_url + str(page))
                 response.raise_for_status()  # Raise an exception if the request was not successful
                 soup = BeautifulSoup(response.content,"html.parser")
-                # "cassetteitem" is the class for each house
+                # "cassetteitem" is the class for each rental
                 yield from soup.select('div.cassetteitem')
                 sleep(randint(1,3))
             except requests.exceptions.RequestException as e:
