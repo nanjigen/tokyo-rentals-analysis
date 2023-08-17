@@ -15,14 +15,14 @@ The purpose of this project is to address a problem often faced when living in T
 
 These include but are not limited to:
 - Square meterage
-- Age
+- Property age
 - Location
 - Number of rooms
 - Distance from nearest station
 
-It also aims to demonstrate my proficiency in applying data analysis with Python.
+So how do you know if you are making a good choice? How might we weigh different factors against each other in order to determine if a given property is worth its monthly rent?
 
-We'll analyze rental prices in Tokyo and create a data-driven visualization to provide insights into the rental market in the central districts of Tokyo.
+To find out we'll need to collect and analyze rental prices in Tokyo and create a data-driven visualization to provide insights into the rental market in the central districts of its famous 23 wards. We will attempt to follow best-practices in both data analysis and data engineering:
 
 1. Data collection: Collect rental price data in Tokyo from various sources, including real estate websites, government websites, and rental agencies.
 2. Data cleaning: Clean and organize the collected data by removing errors or inconsistencies and formatting it for analysis.
