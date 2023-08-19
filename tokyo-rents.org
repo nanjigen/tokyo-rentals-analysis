@@ -304,13 +304,19 @@ def fetch_total_pages_count():
 
 #+end_src
 
-#+begin_src python :eval yes
+#+begin_src python :eval no
 print(fetch_total_pages_count(),"pages were found")
 #+end_src
 
 #+RESULTS:
+: 700 pages were found
 
 As we can see, the original link still works - albeit with more results than the original.
+
+Further inspection with Developer tools corroborates this page number, which can be seen visually on the webpage and is accessible in the =pagination.pagination_set-nav= class.
+
+[[file:img/pagination_set.png]]
+
 
 *** Collection of rental listing elements
 :PROPERTIES:
