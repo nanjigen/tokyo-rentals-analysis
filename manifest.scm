@@ -1,15 +1,16 @@
 (specifications->manifest
-  (list "python"
+  (list "jupyter"
+        "emacs-jupyter"
+        "guix-jupyter"
+        "python"
         "python-ipython"
         "python-ipykernel"
         "python-pytest"
-        "jupyter"
-        "emacs-jupyter"
-        "guix-jupyter"
         "python-beautifulsoup4"
         "python-pandas"
         "python-seaborn"
+        "python-sqlalchemy"
+        "python-osmnx"
         "bash"
         "font-google-noto"
-        "sqlite"
-        "python-sqlalchemy"))
+        "sqlite"))
