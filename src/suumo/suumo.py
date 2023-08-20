@@ -74,6 +74,15 @@ def fetch_results_total_hits(search_url):
     results_hits = ''.join(div_element.strings).split('件')[0].strip()
     return results_hits
 
+def fetch_results_per_page(search_url):
+    """Return the selected displayed results per page"""
+    response = session.get(search_url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    select_element = soup.find('select', id='js-tabmenu2-pcChange')
+    selected_option = select_element.find('option', selected=True)
+    selected_value = selected_option['value']
+    return selected_value
+
     page_nr = [int(s) for s in page_nr.split() if s.isdigit()]
     page_nr = page_nr[len(page_nr)-1]
     return page_nr

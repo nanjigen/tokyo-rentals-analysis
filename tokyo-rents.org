@@ -348,6 +348,26 @@ If we look on the right at 表示建物数, "Number of Displayed Buildings", we 
 
 [[file:img/tab-ui-results.png]]
 
+We can target this number with the following code. The dropdown menu has the id =js-tabmenu2-pcChange=. The value is a nested =<option>= as a child of the =<select>=  element, the currently chosen option having the =selected= attribute:
+
+#+begin_src python :noweb-ref scrape-functions :eval yes :results silent
+def fetch_results_per_page(search_url):
+    """Return the selected displayed results per page"""
+    response = session.get(search_url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    select_element = soup.find('select', id='js-tabmenu2-pcChange')
+    selected_option = select_element.find('option', selected=True)
+    selected_value = selected_option['value']
+    return selected_value
+
+#+end_src
+
+#+begin_src python :exports both :eval yes
+print(fetch_results_per_page(search_url), "results per page")
+#+end_src
+
+#+RESULTS:
+: 30 results per page
 *** Collection of rental listing elements
 :PROPERTIES:
 :CREATED:  [2023-05-28 Sun 12:59]
