@@ -66,11 +66,13 @@ def fetch_total_pages_count(search_url):
             print(f"Error fetching total pages count: {e}")
             return None
 
+def fetch_results_total_hits(search_url):
+    """Return the number of search result hits"""
     response = session.get(search_url)
-    soup = BeautifulSoup(response.content,"html.parser")
-    page_nr = soup.find_all("ol", class_="pagination-parts")[-1].text
-    page_nr = int(page_nr.split()[-1])
-    return page_nr
+    soup = BeautifulSoup(response.content, "html.parser")
+    div_element = div_element = soup.find('div', class_='pagination_set-hit')
+    results_hits = ''.join(div_element.strings).split('件')[0].strip()
+    return results_hits
 
     page_nr = [int(s) for s in page_nr.split() if s.isdigit()]
     page_nr = page_nr[len(page_nr)-1]

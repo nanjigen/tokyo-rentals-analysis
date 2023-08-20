@@ -320,7 +320,25 @@ As we can see, the original link still works - albeit with more results than the
 
 [[file:img/pagination_set.png]]
 
-We can also see a large number of hits, over 300, 000. Unfortunately, as we'll see later on, this seems to be just a marketing gimmick on part of SUUMO.
+We can also see a large number of hits, over 300, 000. We can characterize the number of search results given by SUUMO with the following, which targets the =pagination_set-hit= =div=, splitting the formatted html string at the '件' counter:
+
+#+begin_src python :noweb-ref scrape-functions :eval yes :results silent
+def fetch_results_total_hits(search_url):
+    """Return the number of search result hits"""
+    response = session.get(search_url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    div_element = div_element = soup.find('div', class_='pagination_set-hit')
+    results_hits = ''.join(div_element.strings).split('件')[0].strip()
+    return results_hits
+
+#+end_src
+
+#+begin_src python :exports both :eval no
+print(fetch_results_total_hits(search_url), "number of hits")
+#+end_src
+
+#+RESULTS:
+: 304801 number of hits
 
 *** Collection of rental listing elements
 :PROPERTIES:
