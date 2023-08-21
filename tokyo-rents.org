@@ -334,11 +334,11 @@ def fetch_results_total_hits(search_url):
 #+end_src
 
 #+begin_src python :exports both :eval no
-print(fetch_results_total_hits(search_url), "number of hits")
+print(fetch_results_total_hits(search_url), "search result hits")
 #+end_src
 
 #+RESULTS:
-: 304801 number of hits
+: 304801 search result hits
 
 Above this area on page we can see more search result display options:
 
