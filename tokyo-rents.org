@@ -321,7 +321,7 @@ print(fetch_total_pages_count(search_url),"pages were found")
 #+RESULTS:
 : 700 pages were found
 
-As we can see, the original link still works - albeit with more results than the original. This can be seen visually on the webpage and is accessible in the =pagination.pagination_set-nav= class.
+As we can see, the original link still works - albeit with more results than the 2018 project. This can be seen visually on the webpage and is accessible in the =pagination.pagination_set-nav= class.
 
 [[file:img/pagination_set.png]]
 
@@ -374,7 +374,7 @@ print(fetch_results_per_page(search_url), "results per page")
 #+RESULTS:
 : 30 results per page
 
-With a little math we can see that the total number of pages and the results per page don't add up to SUUMO's returned search results hits:
+With a little math we can see that the total number of pages and the results per page don't add up to SUUMO's returned search result hits:
 
 #+name: calculate results
 #+begin_src python
@@ -397,7 +397,7 @@ def test_search_results(search_url):
 #+end_src
 
 Running the assertion gives us an error:
-#+begin_src python :results output
+#+begin_src python :results output :exports both :eval no
 test_search_results(search_url)
 #+end_src
 
