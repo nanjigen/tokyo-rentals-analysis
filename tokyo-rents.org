@@ -328,7 +328,7 @@ def fetch_results_total_hits(search_url):
     response = session.get(search_url)
     soup = BeautifulSoup(response.content, "html.parser")
     div_element = div_element = soup.find('div', class_='pagination_set-hit')
-    results_hits = ''.join(div_element.strings).split('件')[0].strip()
+    results_hits = int(''.join(div_element.strings).split('件')[0].strip())
     return results_hits
 
 #+end_src
