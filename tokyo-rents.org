@@ -271,9 +271,8 @@ A common approach seems to be to generate a reusable URL seeded with specific se
 At first glance this seems brittle, but due to the aforementioned quirk of Japan's web services, there is some durability to links as sites rarely change or at least not in breaking ways.
 
 Take for instance the following link, which was used in a [[https://github.com/georgeburry/tokyo-rental-prices/tree/master][similar project]] in 2018:
-#+begin_src python :noweb-ref constants :eval yes :results silent
-# this is the URL generated after choosing specific search criteria on the website (e.g. location, house type, price range)
-search_url = "http://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&ta=13&sc=13101&sc=13102&sc=13103&sc=13104&sc=13105&sc=13113&cb=0.0&ct=9999999&et=9999999&cn=9999999&mb=0&mt=9999999&shkr1=03&shkr2=03&shkr3=03&shkr4=03&fw2="
+#+begin_src web :noweb-ref old-suumo-url
+http://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&ta=13&sc=13101&sc=13102&sc=13103&sc=13104&sc=13105&sc=13113&cb=0.0&ct=9999999&et=9999999&cn=9999999&mb=0&mt=9999999&shkr1=03&shkr2=03&shkr3=03&shkr4=03&fw2=
 #+end_src
 
 *** Parsing
@@ -288,6 +287,12 @@ First create a [[https://docs.python-requests.org/en/latest/user/advanced/][Sess
 
 #+begin_src python :noweb-ref constants :results silent
 session = requests.Session()
+#+end_src
+
+Then target the 2018 url:
+#+begin_src python :noweb-ref constants :results silent
+# this is the old URL generated after choosing specific search criteria on the website (e.g. location, house type, price range)
+search_url = "<<old-suumo-url>>"
 #+end_src
 
 Now we can do an initial check of the web content by retrieving the number of pages returned via a function. Here we access the text in the =pagination-parts= class which returns a string containing select-able page numbers. After splitting as integers, we access the last member of the resultant string, giving us the number corresponding the last page button:
