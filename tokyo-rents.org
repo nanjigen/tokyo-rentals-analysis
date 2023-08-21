@@ -298,8 +298,8 @@ def fetch_total_pages_count(search_url):
     try:
         response = session.get(search_url)
         soup = BeautifulSoup(response.content, "html.parser")
-        page_button_text = soup.find("ol", class_="pagination-parts")[-1].text
-        last_page_number = int(page_info.split()[-1])
+        page_button_text = soup.find("ol", class_="pagination-parts").text
+        last_page_number = int(page_button_text.split()[-1])
 
         return last_page_number
 
