@@ -419,6 +419,25 @@ Cell [0;32mIn [125], line 5[0m, in [0;36mtest_search_results[0;34m(search_ur
 [0;31mAssertionError[0m: Expected 307628 results, but got 21120 results.
 #+end_example
 :END:
+
+After some investigation we can discover that the issue lies with our display options. If we look over to the left side of the menu, we are currently set to "建物ごとに表示 ", or 'Display by building':
+
+[[file:img/tab-ui-buildings.png]]
+
+This causes the returned listings to be displayed by building, with open properties listed below each respective building, as can be seen below:
+
+[[file:img/buildings-display.png]]
+
+Instead of pages being limited to 30 rental listings, they are instead displaying 30 /buildings/ per page, with what every variable number of building specific open properties below each - distorting our calculation of listings.
+
+Instead, by changing the display option to "部屋ごとに表示", 'display by rooms', we can get an accurate number of listings per page:
+
+[[file:img/tab-ui-rooms.png]]
+
+Giving us display of 30 rooms per page:
+
+[[file:img/rooms-display.png]]
+
 *** Collection of rental listing elements
 :PROPERTIES:
 :CREATED:  [2023-05-28 Sun 12:59]
