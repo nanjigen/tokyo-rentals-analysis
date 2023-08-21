@@ -171,20 +171,23 @@ Specify requirements.
 First those we can define by ~Guix~'s own packages:
 #+begin_src scheme :tangle manifest.scm :eval no
 (specifications->manifest
-  (list "python"
-        "python-ipython"
-        "python-ipykernel"
-        "python-pytest"
+  (list "texlive-bin" ;; BUG otherwise texlive-font-map complains
         "jupyter"
         "emacs-jupyter"
         "guix-jupyter"
+        "conda"
+        "python"
+        "python-anaconda-client"
+        "python-ipython"
+        "python-ipykernel"
+        "python-pytest"
         "python-beautifulsoup4"
         "python-pandas"
         "python-seaborn"
+        "python-sqlalchemy"
         "bash"
         "font-google-noto"
-        "sqlite"
-        "python-sqlalchemy"))
+        "sqlite"))
 #+end_src
 
 # TODO run conversion to requirements.txt file
