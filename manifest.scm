@@ -9,7 +9,7 @@
         "python-ipython"
         "python-ipykernel"
         "python-pytest"
-        "python-beautifulsoup4"
+        "python-scrapy"
         "python-pandas"
         "python-seaborn"
         "python-sqlalchemy"

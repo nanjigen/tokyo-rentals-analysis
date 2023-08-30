@@ -181,7 +181,7 @@ First those we can define by ~Guix~'s own packages:
         "python-ipython"
         "python-ipykernel"
         "python-pytest"
-        "python-beautifulsoup4"
+        "python-scrapy"
         "python-pandas"
         "python-seaborn"
         "python-sqlalchemy"
@@ -205,7 +205,8 @@ import json
 # import pytest
 from time import time, sleep
 from random import randint
-from bs4 import BeautifulSoup
+import scrapy
+from scrapy.http import HtmlResponse
 import pandas as pd
 
 import matplotlib
