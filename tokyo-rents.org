@@ -59,7 +59,7 @@ https://qiita.com/tomyu/items/a08d3180b7cbe63667c9
 https://github.com/georgeburry/tokyo-rental-prices
 https://github.com/steimel64/Masters_Thesis_Tokyo_Rent_Prediction
 
-** 5 Identifying next actions
+** Identifying next actions
 :PROPERTIES:
 :CREATED:  [2023-05-07 Sun 20:13]
 :ID:       9c3e3b50-6197-4dfe-9c86-a8977812a2e1
@@ -259,7 +259,7 @@ plt.rcParams['axes.unicode_minus']=False # in case minus sign is shown as box
 :ID:       f0f14775-e4a4-4644-9825-cad597f29c00
 :END:
 
-In this initial phase, we will be collecting rental data. Initially from well-known rental sites in Japan, but later also government and other data which might allow us to better answer our research questions.
+In this initial phase, we will be collecting rental data. Initially from well-known rental sites in Japan, but later also government and other data which might allow us to better answer our research questions. Our tool of choice is [[https://github.com/scrapy/scrapy][scrapy]], which will give us robust scraping via spiders.
 
 ** Scraping from SUUMO
 :PROPERTIES:
@@ -274,9 +274,11 @@ A common approach seems to be to generate a reusable URL seeded with specific se
 At first glance this seems brittle, but due to the aforementioned quirk of Japan's web services, there is some durability to links as sites rarely change or at least not in breaking ways.
 
 Take for instance the following link, which was used in a [[https://github.com/georgeburry/tokyo-rental-prices/tree/master][similar project]] in 2018:
-#+begin_src web :noweb-ref old-suumo-url
+#+begin_src web :noweb-ref old-suumo-url :eval no
 http://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&ta=13&sc=13101&sc=13102&sc=13103&sc=13104&sc=13105&sc=13113&cb=0.0&ct=9999999&et=9999999&cn=9999999&mb=0&mt=9999999&shkr1=03&shkr2=03&shkr3=03&shkr4=03&fw2=
 #+end_src
+
+Previous projects also seem to rely on ~BeautifulSoup~. While useful for initial parsing of HTML and CSS based data (and indeed was done for the current project in its early stage), this project will make use of scrapy as a more robust scraper capable of creating data pipelines.
 
 *** Parsing
 :PROPERTIES:
@@ -286,16 +288,19 @@ http://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&ta=13&sc=13101&sc=1
 
 Initial exploration of the =search-url= page was done via Firefox's Web Developer tools. By inspecting the HTML elements, its determined that we need to look inside the class =cassetteitem= to find property related information. All entries related to the search are split into pages, which we can see by looking for =pagination-parts= class instances.
 
-First create a [[https://docs.python-requests.org/en/latest/user/advanced/][Session object]] outside our functions via =requests.Session()= for connection pooling to improve performance. This can be a constant:
+First create a spider, ~suumo~, as a class, ~SuumoSpider~, to encapsulate our functions.
 
-#+begin_src python :noweb-ref constants :results silent
-session = requests.Session()
+#+begin_src python :noweb-ref suumo-spider :results silent
+class SuumoSpider(scrapy.Spider):
+    name = "suumo"
 #+end_src
 
 Then target the 2018 url:
-#+begin_src python :noweb-ref constants :results silent
+#+begin_src python :noweb-ref suumo-spider :results silent
 # this is the old URL generated after choosing specific search criteria on the website (e.g. location, house type, price range)
-search_url = "<<old-suumo-url>>"
+    start_urls = [
+        "<<old-suumo-url>>"
+    ]
 #+end_src
 
 Now we can do an initial check of the web content by retrieving the number of pages returned via a function. Here we access the text in the =pagination-parts= class which returns a string containing select-able page numbers. After splitting as integers, we access the last member of the resultant string, giving us the number corresponding the last page button:
@@ -686,7 +691,7 @@ def load_data(start_page, end_page):
 #+end_src
 
 Lets take a look at the initial frame:
-#+begin_src python :results yes
+#+begin_src python :results output
 df = load_data(1, 2)
 df.head()
 #+end_src
@@ -915,8 +920,6 @@ create_database("suumo-test.db", "Suumo2023_test", 1, 2)
 #+begin_src python :results silent :eval yes
 #+end_src
 
-#+end_example
-
 * TODO Analysis
 :PROPERTIES:
 :CREATED:  [2023-05-23 Tue 16:28]
@@ -929,7 +932,6 @@ create_database("suumo-test.db", "Suumo2023_test", 1, 2)
 :END:
 Perform exploratory data analysis to gain insights into rental price distribution, property types, and geographical variations.
 
-#+begin_src python
 ** TODO Implement statistical analysis techniques
 :PROPERTIES:
 :CREATED:  [2023-05-23 Tue 17:02]
