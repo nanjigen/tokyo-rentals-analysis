@@ -206,6 +206,7 @@ import json
 from time import time, sleep
 from random import randint
 import scrapy
+from scrapy.crawler import CrawlerProcess
 from scrapy.http import HtmlResponse
 import pandas as pd
 
@@ -317,10 +318,14 @@ def fetch_total_pages_count(search_url):
 
         return last_page_number
 
-    except (requests.RequestException, AttributeError, ValueError, IndexError) as e:
-            print(f"Error fetching total pages count: {e}")
-            return None
+Implement a crawler process for running in a [[https://www.jitsejan.com/using-scrapy-in-jupyter-notebook][jupyter notebook]]:
+#+begin_src python :results silent
+process = CrawlerProcess({
+    'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
+})
 
+process.crawl(SuumoSpider)
+process.start()
 #+end_src
 
 #+begin_src python :exports both :eval no

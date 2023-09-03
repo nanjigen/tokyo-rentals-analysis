@@ -5,7 +5,9 @@ import json
 # import pytest
 from time import time, sleep
 from random import randint
-from bs4 import BeautifulSoup
+import scrapy
+from scrapy.crawler import CrawlerProcess
+from scrapy.http import HtmlResponse
 import pandas as pd
 
 import matplotlib
