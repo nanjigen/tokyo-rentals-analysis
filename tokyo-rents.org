@@ -292,18 +292,21 @@ Initial exploration of the =search-url= page was done via Firefox's Web Develope
 
 First create a spider, ~suumo~, as a class, ~SuumoSpider~, to encapsulate our functions.
 
+*** SuumospiderSpider
+:PROPERTIES:
+:CREATED:  [2023-08-30 Wed 18:34]
+:ID:       b05eaf72-7560-4e4e-8c9e-19bb85d4f832
+:END:
+
+Our spider class targeting the 2018 url:
 #+begin_src python :noweb-ref suumo-spider :results silent
 class SuumoSpider(scrapy.Spider):
-    name = "suumo"
-#+end_src
-
-Then target the 2018 url:
-#+begin_src python :noweb-ref suumo-spider :results silent
-# this is the old URL generated after choosing specific search criteria on the website (e.g. location, house type, price range)
+    name = "suumospider"
+    allowed_domains = ['suumo.jp']
+    # this is the old URL generated after choosing specific search criteria on the website (e.g. location, house type, price range)
     start_urls = [
         "<<old-suumo-url>>"
     ]
-#+end_src
 
 Now we can do an initial check of the web content by retrieving the number of pages returned via a function. Here we access the text in the =pagination-parts= class which returns a string containing select-able page numbers. After splitting as integers, we access the last member of the resultant string, giving us the number corresponding the last page button:
 
@@ -1018,10 +1021,6 @@ __pycache__/
 <<imports>>
 
 # Constants
-<<constants>>
-
-<<scrape-functions>>
-
 <<clean-functions>>
 
 <<database-functions>>
