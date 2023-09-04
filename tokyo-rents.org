@@ -208,6 +208,7 @@ from random import randint
 import scrapy
 from scrapy.crawler import CrawlerProcess
 from scrapy.http import HtmlResponse
+from scrapy.http import TextResponse
 import pandas as pd
 
 import matplotlib
@@ -335,6 +336,13 @@ process = CrawlerProcess({
 
 process.crawl(SuumoSpider)
 process.start()
+#+end_src
+
+And make use of the requests library [[https://notebook.community/HrantDavtyan/Data_Scraping/2018/Scrapy][to have a response]] after the initial call for demonstration purposes:
+#+begin_src python :results silent
+url = "<<old-suumo-url>>"
+r = requests.get(url)
+response = TextResponse(r.url,body=r.text,encoding="utf8")
 #+end_src
 
 Now we can do an initial check of the web content by retrieving the number of pages returned via a function. Here we access the text in the =pagination-parts= class which returns a string containing select-able page numbers. After splitting as integers, we access the last member of the resultant string, giving us the number corresponding the last page button:

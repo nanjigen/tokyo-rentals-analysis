@@ -8,6 +8,7 @@ from random import randint
 import scrapy
 from scrapy.crawler import CrawlerProcess
 from scrapy.http import HtmlResponse
+from scrapy.http import TextResponse
 import pandas as pd
 
 import matplotlib
